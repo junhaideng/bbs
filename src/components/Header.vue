@@ -8,27 +8,27 @@
                                 theme="light"
                                 mode="horizontal"
                                 :style="{ lineHeight: '64px'}"
+                                v-model="selectKeys"
                         >
                             <a-menu-item key="1">
-                                <a href="/index" target="_blank">
+                                <a href="/index" >
                                     <a-icon type="home"/>
                                     主页</a>
                             </a-menu-item>
                             <a-menu-item key="2">
-                                <a href="/course" target="_blank">
+                                <a href="/course" >
                                     <a-icon type="book"/>
                                     课程</a>
                             </a-menu-item>
                             <a-menu-item key="3">
 
-                                <a href="/community" target="_blank">
+                                <a href="/community" >
                                     <a-icon type="wechat"/>
                                     社区</a>
                             </a-menu-item>
                         </a-menu>
                     </a-col>
                 </a-col>
-
                 <div v-if="isLogin">
                     <a-col :xs="{span:4, offset:14}" :sm="{span:3, offset:4}" :md="{span:2, offset:4}"
                            :lg="{span:2, offset:5}" :xl="{span:1, offset:5}">
@@ -138,6 +138,14 @@
     import Login from "./user/Login";
     export default {
         name: "Header",
+        props:{
+            selectKeys:{
+                type:Array,
+                default(){
+                    return ['1']
+                }
+            }
+        },
         components: {
             Login
         },

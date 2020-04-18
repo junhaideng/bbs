@@ -1,6 +1,6 @@
 <template>
     <a-layout >
-        <Header/>
+        <Header select-keys="['1']"/>
         <Content/>
         <Footer/>
     </a-layout>

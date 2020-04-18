@@ -1,7 +1,7 @@
 <template>
  <div>
    <a-layout>
-     <Header />
+     <Header select-keys="['2']"/>
      <Footer />
    </a-layout>
  </div>
