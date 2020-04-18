@@ -1,7 +1,7 @@
 <template>
  <div>
    <a-layout>
-     <Header select-keys="['2']"/>
+     <Header :select-keys="selectKeys"/>
      <Footer />
    </a-layout>
  </div>
@@ -13,7 +13,12 @@ import Footer from "./Footer";
 
 export default {
   name: "Course",
-  components: { Footer, Header }
+  components: { Footer, Header },
+    data(){
+        return {
+            selectKeys: ['3']
+        }
+    }
 };
 </script>
 

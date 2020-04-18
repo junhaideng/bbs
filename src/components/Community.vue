@@ -2,7 +2,7 @@
     <div>
 
         <a-layout>
-            <Header select-keys="['3']"/>
+            <Header :select-keys="selectKeys"/>
             <Content/>
             <Footer/>
 
@@ -23,6 +23,11 @@
             Header,
             Content
         },
+        data(){
+            return {
+                selectKeys: ['3']
+            }
+        }
 
     }
 </script>

@@ -140,7 +140,6 @@
         name: "Header",
         props:{
             selectKeys:{
-                type:Array,
                 default(){
                     return ['1']
                 }
