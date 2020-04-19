@@ -142,6 +142,7 @@
     import Footer from "../Footer";
     import Header from "../Header";
     import axios from 'axios'
+    import qs from 'qs'
 
     export default {
         name: "SignUp",
@@ -184,13 +185,13 @@
                 this.form.validateFieldsAndScroll((err, values) => {
                     if (!err) {
                         console.log('Received values of form: ', values);
-                        axios.post("/user/login", {
-                            username: values.username,
-                            email: values.email,
-                            password: values.password,
-                            gender: values.gender,
-                            academy: values.academy
-                        }).then(response=>(console.log(response)))
+                        axios.post("/user/signup/", {
+                           data:qs.stringify({ username: values.username,
+                               email: values.email,
+                               password: values.password,
+                               gender: values.gender,
+                               academy: values.academy}), params: "hello"
+                        }).then(response=>(console.log(response.data)))
                             .catch(err=>(console.log(err)))
                     }
                 });

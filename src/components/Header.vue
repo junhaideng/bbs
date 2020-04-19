@@ -8,7 +8,7 @@
                                 theme="light"
                                 mode="horizontal"
                                 :style="{ lineHeight: '64px'}"
-                                v-model="selectKeys"
+                                v-model="keys"
                         >
                             <a-menu-item key="1">
                                 <a href="/index" >
@@ -114,9 +114,9 @@
                                         :footer="null"
                                         :visible="visible"
                                         :centered="true"
-                                        @cancel="visible=!visible"
+                                        @cancel="handleCancel"
                                 >
-                                    <Login @click="login" />
+                                    <Login ref="login" @click="login" />
                                 </a-modal>
                             </a-list-item>
 
@@ -152,12 +152,19 @@
             return {
                 isLogin: false,
                 visible: false,
+                keys: this.selectKeys
             }
         },
         methods: {
             login() {
                 this.visible = !this.visible
             },
+            handleCancel(){
+                this.visible = !this.visible;
+                this.$refs.login.clearInput();
+                this.$emit('clearInput')
+
+            }
 
         }
     }

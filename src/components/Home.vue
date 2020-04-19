@@ -1,6 +1,6 @@
 <template>
     <a-layout >
-        <Header select-keys="['1']"/>
+        <Header :select-keys="selectKeys"/>
         <Content/>
         <Footer/>
     </a-layout>
@@ -18,6 +18,11 @@
             Header,
             Footer,
             Content
+        },
+        data(){
+            return{
+                selectKeys: ['1']
+            }
         }
     };
 </script>

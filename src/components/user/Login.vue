@@ -1,34 +1,34 @@
 <template>
-  <div>
+    <div id="login">
 
-              <a-row>
-                  <a-col :style="{textAlign: 'center'}">
-                      Please sign in
-                  </a-col>
-              </a-row>
-              <div :style="{margin: '36px'}"></div>
+        <a-row>
+            <a-col :style="{textAlign: 'center'}">
+                Please sign in
+            </a-col>
+        </a-row>
+        <div :style="{margin: '36px'}"></div>
 
-              <a-row>
-                  <a-col :xs="{span:20, offset:2}" :sm="{span:20, offset:1}" :md="{span:18, offset:2}"
-                         :lg="{span:16, offset:2}" :xl="{span:16, offset:2}">
-                      <a-form :form="form" @submit="handleSubmit">
-                          <a-form-item v-bind="formItemLayout">
+        <a-row>
+            <a-col :xs="{span:20, offset:2}" :sm="{span:20, offset:1}" :md="{span:18, offset:2}"
+                   :lg="{span:16, offset:2}" :xl="{span:16, offset:2}">
+                <a-form :form="form" @submit="handleSubmit">
+                    <a-form-item v-bind="formItemLayout">
       <span slot="label">
         用户名
       </span>
-                              <a-input
-                                      v-decorator="[
+                        <a-input :key="1"
+                                 v-decorator="[
           'username',
           {
             rules: [{ required: true, message: '请输入你的用户名!', whitespace: true }],
           },
         ]"
-                              />
-                          </a-form-item>
+                        />
+                    </a-form-item>
 
-                          <a-form-item v-bind="formItemLayout" label="密码" >
-                              <a-input-password
-                                      v-decorator="[
+                    <a-form-item v-bind="formItemLayout" label="密码">
+                        <a-input-password :key="2"
+                                          v-decorator="[
           'password',
           {
             rules: [
@@ -39,24 +39,25 @@
             ],
           },
         ]"
-                                      type="password"
-                              />
-                          </a-form-item>
-                          <a-form-item v-bind="tailFormItemLayout">
-                              <a-button type="primary" html-type="submit" :style="{float:'right'}">
-                                  登录
-                              </a-button>
-                          </a-form-item>
-                      </a-form>
+                                          type="password"
+                        />
+                    </a-form-item>
+                    <a-form-item v-bind="tailFormItemLayout">
+                        <a-button type="primary" html-type="submit" :style="{float:'right'}">
+                            登录
+                        </a-button>
+                    </a-form-item>
+                </a-form>
 
-                  </a-col>
-              </a-row>
+            </a-col>
+        </a-row>
 
-  </div>
+    </div>
 </template>
 
 <script>
-    import axios from 'axios'
+    import qs from 'qs'
+
 
     export default {
         name: "Login",
@@ -66,12 +67,12 @@
                 autoCompleteResult: [],
                 formItemLayout: {
                     labelCol: {
-                        xs: { span: 24 },
-                        sm: { span: 8 },
+                        xs: {span: 24},
+                        sm: {span: 8},
                     },
                     wrapperCol: {
-                        xs: { span: 24 },
-                        sm: { span: 16 },
+                        xs: {span: 24},
+                        sm: {span: 16},
                     },
                 },
                 tailFormItemLayout: {
@@ -89,7 +90,7 @@
             };
         },
         beforeCreate() {
-            this.form = this.$form.createForm(this, { name: 'register' });
+            this.form = this.$form.createForm(this, {name: 'register'});
         },
         methods: {
             handleSubmit(e) {
@@ -97,22 +98,26 @@
                 this.form.validateFieldsAndScroll((err, values) => {
                     if (!err) {
                         // 将value上传到服务端
-                        console.log('Received values of form: ', values.username, values.password);
-                        this.$emit('login');
+                        this.$axios({
+                            method: "post",
+                            url: "/user/login/",
+                            data: qs.stringify(values),
 
-
-                        axios.post("/user/login", {username:values.username,
-                        password: values.password})
-                            .then(data=>(this.$message.success(data)))
-                            .catch(err=>(this.$message.error(err)));
+                        })
+                            .then(response => {
+                                this.$message.success(response.data)
+                            })
+                            .catch(err => (this.$message.error(err)));
                     }
                 });
             },
             handleConfirmBlur(e) {
                 const value = e.target.value;
-                console.log(value);
                 this.confirmDirty = this.confirmDirty || !!value;
             },
+            clearInput() {
+                this.form.resetFields()
+            }
         },
     };
 </script>
