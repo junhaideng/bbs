@@ -34,12 +34,12 @@
                            :lg="{span:2, offset:5}" :xl="{span:1, offset:5}">
                         <a-dropdown>
                             <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                                <a-avatar src="../assets/images/4.jpg"/>
+                                <a-avatar src="https://dummyimage.com/200x100/50B347/FFF&text=Mock.js"/>
                                 <a-icon type="down"/>
                             </a>
                             <a-menu slot="overlay" :style="{paddingTop: '0.5rem'}">
                                 <a-menu-item>
-                                    <a :style="{marginRight:'0.5rem'}" href="javascript:void(0)">
+                                    <a :style="{marginRight:'0.5rem'}" href="/user/profile">
                                         <a-icon type="user" :style="{marginRight:'0.5rem'}"/>
                                         个人中心</a>
                                 </a-menu-item>
@@ -150,7 +150,7 @@
         },
         data() {
             return {
-                isLogin: false,
+                isLogin: true,
                 visible: false,
                 keys: this.selectKeys
             }
@@ -162,8 +162,6 @@
             handleCancel(){
                 this.visible = !this.visible;
                 this.$refs.login.clearInput();
-                this.$emit('clearInput')
-
             }
 
         }

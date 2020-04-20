@@ -1,0 +1,64 @@
+<template>
+<Profile :selected-keys="thisSelectedKeys" :open-keys="thisOpenKeys">
+    <template v-slot:content>
+          <a-row>
+              <a-col :span="20" :offset="2">
+                  <a-table :columns="columns" :dataSource="data"></a-table>
+              </a-col>
+
+          </a-row>
+    </template>
+</Profile>
+</template>
+
+
+<script>
+const columns = [
+  {
+    title: "登录ip",
+    dataIndex: "ip",
+    key: "ip",
+    width: "30%"
+  },
+  {
+    title: "登录时间",
+    dataIndex: "date",
+    key: "date",
+    width: "30%"
+  },
+   {
+    title: "登录地址",
+    dataIndex: "address",
+    key: "address",
+    width: "40%"
+  }
+];
+
+import Profile from "./Profile"
+
+export default {
+  name: "LoginLog",
+  data() {
+    return {
+      data: [],
+      columns,
+      thisOpenKeys:["sub1"],  // 打开第三个子菜单
+      thisSelectedKeys: ['2']
+    };
+  },
+  components:{
+      Profile
+  },
+  mounted() {
+    this.$axios
+      .post("/user/profile/log", { userId: 11 })
+      .then(res => {
+        this.data = res.data.data;
+        console.log(this.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+};
+</script>

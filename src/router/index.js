@@ -3,15 +3,21 @@ import Router from 'vue-router'
 import Community from "../components/Community";
 import Course from "../components/Course";
 import Home from "../components/Home";
-// import Login from "../components/user/Login";
 import SignUp from "../components/user/SignUp";
+import Profile from '../components/user/Profile'
+import Files from "../components/user/Files";
+import LoginLog from "../components/user/LoginLog"
+import FileUpload  from "../components/user/FileUpload"
 
 Vue.use(Router);
 
 export default new Router({
   mode: 'history',
   routes: [
-
+    {
+      path: "/",
+      redirect: '/index'
+    },
     {
       path: '/index',
       name: 'index',
@@ -27,15 +33,43 @@ export default new Router({
       name: "course",
       component: Course
     },
-    // {
-    //   path: '/login',
-    //   name: 'login',
-    //   component: Login
-    // },
     {
       path: '/signup',
       name: 'signup',
       component: SignUp
     },
-  ]
+    {
+      path:'/user/profile/',
+      name: 'profile',
+      component: Profile,
+      // children:[
+      //   {
+      //     path: 'files',  // 不要加  / 否则被认为是根目录
+      //     name: 'files',
+      //     component: Files
+      //   },
+      //   {
+      //     path: 'log',
+      //     name: 'log',
+      //     component: LoginLog
+      //   }
+      // ]
+    },
+{
+  path: '/user/profile/files',
+  name: 'files',
+  component: Files
+},
+{
+  path: '/user/profile/log',
+  name: 'log',
+  component: LoginLog
+}   ,
+{
+  path: '/user/profile/upload',
+  name: 'upload',
+  component: FileUpload
+}         
+  ],
+  
 })

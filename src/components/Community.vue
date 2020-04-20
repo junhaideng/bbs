@@ -5,7 +5,6 @@
             <Header :select-keys="selectKeys"/>
             <Content/>
             <Footer/>
-
         </a-layout>
 
     </div>
@@ -21,7 +20,7 @@
         components: {
             Footer,
             Header,
-            Content
+            Content,
         },
         data(){
             return {

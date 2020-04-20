@@ -1,12 +1,16 @@
 <template>
     <div id="app">
-        <router-view></router-view>
+        <Community/>
     </div>
 </template>
 
 <script>
+    import Community from '../../components/Community'
     export default {
         name: 'App',
+        components: {
+            Community
+        }
     }
 </script>
 
