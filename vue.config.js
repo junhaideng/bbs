@@ -9,7 +9,9 @@ module.exports = {
     pages,
     filenameHashing:false,
     lintOnSave: true,
-    publicPath:'./',
     outputDir:'output',
-    assetsDir: 'src/assets'
+    assetsDir: 'src/assets',
+    publicPath: process.env.NODE_ENV === 'production'
+    ? '/bbs/'
+    : '/'
 };
