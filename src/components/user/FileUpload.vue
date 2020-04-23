@@ -130,6 +130,9 @@ export default {
         }
       });
     },
+    handleChange(){
+      return false
+    },
     resetForm() {
       this.$refs.ruleForm.resetFields();
     },

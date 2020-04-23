@@ -3,7 +3,7 @@
         <a-row>
             <a-col>
                 <a-menu
-                        style="maxWidth: 230px"
+                        style="maxWidth: 256px"
                         :selectedKeys="selectedKeys"
                         :openKeys.sync="keys"
                         mode="inline"
@@ -81,7 +81,7 @@
         mounted(){
             window.onresize = ()=> {
                 this.screenWidth=document.body.clientWidth;
-                if(this.screenWidth<=576){
+                if(this.screenWidth<=734){
                     this.collapsed = true
                 }
                 else{

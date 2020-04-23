@@ -2,7 +2,7 @@
 <Profile :selected-keys="thisSelectedKeys" :open-keys="thisOpenKeys">
     <template v-slot:content>
           <a-row>
-              <a-col :span="20" :offset="2">
+              <a-col :span="22" :offset="1">
                   <a-table :columns="columns" :dataSource="data" rowKey="date"></a-table>
               </a-col>
 
@@ -18,7 +18,7 @@ const columns = [
     title: "登录ip",
     dataIndex: "ip",
     key: "ip",
-    width: "30%"
+    width: "40%"
   },
   {
     title: "登录时间",
@@ -30,7 +30,7 @@ const columns = [
     title: "登录地址",
     dataIndex: "address",
     key: "address",
-    width: "40%"
+    width: "30%"
   }
 ];
 

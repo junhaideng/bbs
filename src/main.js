@@ -5,13 +5,15 @@ import 'ant-design-vue/dist/antd.css'
 import router from "./router/index.js"
 import axios from 'axios'
 import '../mock/'
+import store from './vuex/store'
 Vue.prototype.$axios = axios;
 
 Vue.use(Andt);
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = true;
 
 new Vue({
+  store,
   router,
   render: h => h(App),
 

@@ -3,14 +3,14 @@
     <a-layout>
       <Header />
       <a-layout-content
-        :style="{width:'90%', margin: 'auto', marginTop: '20px',minHeight: '480px'}"
+        :style="{width:'90%', margin: 'auto', marginTop: '20px',minHeight}"
       >
         <a-row>
           <a-col :span="5">
             <Sidebar :selectedKeys="thisSelectedKeys" :open-keys="thisOpenKeys" />
           </a-col>
           <a-col :span="18">
-            <a-layout-content :style="{backgroundColor: 'white', minHeight: '480px'}">
+            <a-layout-content :style="{backgroundColor: 'white', minHeight, marginLeft: '20px'}">
               <slot name="content">Welcome come here</slot>
             </a-layout-content>
           </a-col>
@@ -45,11 +45,15 @@ export default {
     Footer,
     Sidebar
   },
+  mounted(){
+    this.minHeight = document.body.clientHeight-200 + "px";
+    
+  },
   data() {
     return {
       thisOpenKeys:this.openKeys,
-      thisSelectedKeys: this.selectedKeys
-
+      thisSelectedKeys: this.selectedKeys,
+      minHeight: ""
       };
       
     }

@@ -83,3 +83,13 @@ Mock.mock("/user/articles", 'get', {
         }
     ]
 })
+
+
+Mock.mock("/user/messageCount", "post", function(options){
+    console.log(options.body)
+    return Mock.mock({
+        data:{
+           messageCount: 1000
+        }
+    })
+})

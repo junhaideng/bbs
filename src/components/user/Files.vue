@@ -3,7 +3,7 @@
     <Profile :selectedKeys="thisSelectedKeys" :open-keys="thisOpenKeys">
       <template v-slot:content>
         <a-table
-          :pagination="{pageSize: 10, showSizeChanger: true}"
+          :pagination="{pageSize: 10,}"
           :columns="columns"
           :dataSource="data"
           :rowSelection="rowSelection"
