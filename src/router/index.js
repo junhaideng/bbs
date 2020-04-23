@@ -7,15 +7,19 @@ import SignUp from "../components/user/SignUp";
 import Profile from '../components/user/Profile'
 import Files from "../components/user/Files";
 import LoginLog from "../components/user/LoginLog"
-import FileUpload  from "../components/user/FileUpload"
+import FileUpload from "../components/user/FileUpload"
 import Article from "../components/user/Article"
+import Post from "../components/user/Post"
+import Message from "../components/user/Message"
+import MessageSettings from "../components/user/MessageSettings"
+import Out from "../components/user/Out"
+import PasswordChange from "../components/user/PasswordChange"
 
 Vue.use(Router);
 
 export default new Router({
   mode: 'history',
-  routes: [
-    {
+  routes: [{
       path: "/",
       redirect: '/index'
     },
@@ -40,7 +44,7 @@ export default new Router({
       component: SignUp
     },
     {
-      path:'/user/profile/',
+      path: '/user/profile/',
       name: 'profile',
       component: Profile,
       // children:[
@@ -56,26 +60,51 @@ export default new Router({
       //   }
       // ]
     },
-{
-  path: '/user/profile/files',
-  name: 'files',
-  component: Files
-},
-{
-  path: '/user/profile/log',
-  name: 'log',
-  component: LoginLog
-}   ,
-{
-  path: '/user/profile/upload',
-  name: 'upload',
-  component: FileUpload
-}   ,
-{
-  path:"/user/profile/article",
-  name: "article",
-  component: Article
-}      
+    {
+      path: '/user/profile/files',
+      name: 'files',
+      component: Files
+    },
+    {
+      path: '/user/profile/log',
+      name: 'log',
+      component: LoginLog
+    },
+    {
+      path: '/user/profile/upload',
+      name: 'upload',
+      component: FileUpload
+    },
+    {
+      path: "/user/profile/post",
+      name: "post",
+      component: Post
+    },
+    {
+      path: "/user/profile/change-password",
+      name: "change-password",
+      component: PasswordChange
+    },
+    {
+      path: "/user/profile/messages",
+      name: "messages",
+      component: Message
+    },
+    {
+      path: "/user/profile/message-settings",
+      name: "message-settings",
+      component: MessageSettings
+    },
+    {
+      path: "/user/profile/out",
+      name: "out",
+      component: Out
+    },
+    {
+      path: "/user/profile/article",
+      name: "article",
+      component: Article
+    }
   ],
-  
+
 })
