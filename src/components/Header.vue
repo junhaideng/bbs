@@ -50,7 +50,7 @@
                                 </a-menu-item>
                                 <a-menu-divider/>
                                 <a-menu-item>
-                                    <a href="javascript:void(0)">
+                                    <a href="/user/profile/article">
                                         <a-icon type="history" :style="{marginRight:'0.5rem'}"/>
                                         我的帖子</a>
                                 </a-menu-item>

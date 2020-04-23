@@ -1,44 +1,4 @@
-// const fs = require('fs')
-// const path = require("path")
-// const JSON5 = require("json5")
 const Mock = require('mockjs')
-// const getFiles = require('files')
-
-
-// function getJsonFile(filePath) {
-//     let json = fs.readFileSync(path.resolve(__dirname, filePath), 'utf-8')
-//     return JSON5.parse(json)
-// }
-
-// module.exports = function (app) {
-//     // if(process.env.MOCK==='true') // 开发模式下使用mock 需要在.env文件下进行配置
-//     // {
-//     app.get("/user/userinfo/", function (req, res) {
-//         let json = getJsonFile('./userInfo.json5');
-//         res.json(Mock.mock(json));
-//     });
-
-//     app.get("/user/login/", function (req, res) {
-//         // console.log(req.body)
-//         if (req.params) {
-//             res.json(req.params) //{"status":"successful"}
-//         } else {
-//             res.json({"status": "failed"})
-//         }
-//     });
-
-//     app.post("/user/signup/", function (req, res) {
-//         console.log(req.params);
-//         res.json({"status": "success"})
-//     });
-
-//     app.post("/user/files/", function (req, res) {
-//         console.log(req);
-
-//         res.json(Mock.mock(getFiles()))
-//     })
-//     // }
-// };
 
 
 Mock.mock("/user/userinfo/", 'get', {
@@ -73,7 +33,7 @@ Mock.mock("/user/profile/files/", "post", function(options){
                 type: "@integer(1, 4)",
                 downloadTimes: "@integer(0, 1000)",
                 date: "@date()",
-                desc: "@sentence()"
+                desc: "@cword(20, 40)"
             }
         ]
 
@@ -102,4 +62,24 @@ Mock.mock("/file/upload", "post", function(options){
         message: "@cword(10, 20)",
         
     })
+})
+
+Mock.mock("/user/articles", 'get', {
+    "data|40-90":[
+        {
+            title: "@cword(6,10)",
+            content: "@cword(100)",
+            // star: "@integer(20,100)",
+            // comments: "@integer(20,1000)",
+            read: "@integer(0,40)",
+            create_time: "@date",
+            // like: "@integer(0, 100)",
+            data: [
+                "@integer(20,100)",  // star 
+                "@integer(20,1000)", // like
+                "@integer(20,1000)", // comments
+                "@date"
+            ]
+        }
+    ]
 })

@@ -8,6 +8,7 @@ import Profile from '../components/user/Profile'
 import Files from "../components/user/Files";
 import LoginLog from "../components/user/LoginLog"
 import FileUpload  from "../components/user/FileUpload"
+import Article from "../components/user/Article"
 
 Vue.use(Router);
 
@@ -69,7 +70,12 @@ export default new Router({
   path: '/user/profile/upload',
   name: 'upload',
   component: FileUpload
-}         
+}   ,
+{
+  path:"/user/profile/article",
+  name: "article",
+  component: Article
+}      
   ],
   
 })

@@ -3,25 +3,24 @@
         <a-row>
             <a-col>
                 <a-menu
-                        @click="handleClick"
                         style="maxWidth: 230px"
                         :selectedKeys="selectedKeys"
                         :openKeys.sync="keys"
                         mode="inline"
                         :inlineCollapsed="collapsed"
                 >
-                    <a-sub-menu key="sub1" @titleClick="titleClick">
+                    <a-sub-menu key="sub1">
                         <span slot="title"><a-icon type="user" /><span>基本资料</span></span>
                             <a-menu-item key="1">个人资料</a-menu-item>
                             <a-menu-item key="2"><a href='/user/profile/log'>登录日志</a> </a-menu-item>
 
                     </a-sub-menu>
-                    <a-sub-menu key="sub2" @titleClick="titleClick">
+                    <a-sub-menu key="sub2" >
                         <span slot="title"><a-icon type="tool" /><span>帖子管理</span></span>
-                        <a-menu-item key="3">我的帖子</a-menu-item>
+                        <a-menu-item  key="3"><a href="/user/profile/article">我的帖子</a></a-menu-item>
                         <a-menu-item key="4">我要发帖</a-menu-item>
                     </a-sub-menu>
-                    <a-sub-menu key="sub3" @titleClick="titleClick">
+                    <a-sub-menu key="sub3">
                         <span slot="title"><a-icon type="file" /><span>文件管理</span></span>
                         <a-menu-item key="5"><a href="/user/profile/files">我的文件</a></a-menu-item>
                         <a-menu-item key="6"><a href="/user/profile/upload">文件上传</a></a-menu-item>
@@ -68,12 +67,7 @@
             };
         },
         methods: {
-            handleClick(e) {
-                console.log('click', e);
-            },
-            titleClick(e) {
-                console.log('titleClick', e);
-            },
+        
             toggleCollapsed() {
                 this.collapsed = !this.collapsed;
             },

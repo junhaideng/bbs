@@ -3,7 +3,7 @@
     <template v-slot:content>
           <a-row>
               <a-col :span="20" :offset="2">
-                  <a-table :columns="columns" :dataSource="data"></a-table>
+                  <a-table :columns="columns" :dataSource="data" rowKey="date"></a-table>
               </a-col>
 
           </a-row>

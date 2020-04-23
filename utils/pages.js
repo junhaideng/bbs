@@ -5,9 +5,9 @@ module.exports.pages = function () {
         let fileList = filepath.split('/')
         let fileName = fileList[fileList.length - 2]
         pages[fileName] = {
-            entry: `./src/pages/${fileName}/${fileName}.js`,
+            entry: `src/pages/${fileName}/${fileName}.js`,
             // 模板来源
-            template: `./src/pages/${fileName}/${fileName}.html`,
+            template: `src/pages/${fileName}/${fileName}.html`,
             // 在 dist/index.html 的输出
             filename: process.env.NODE_ENV === 'development' ? `${fileName}.html` : `${fileName}/${fileName}.html`,
             // 提取出来的通用 chunk 和 vendor chunk。
