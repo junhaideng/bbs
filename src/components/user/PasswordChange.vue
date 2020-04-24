@@ -30,13 +30,13 @@
         
             <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
               <a-button type="primary" @click="submitForm('ruleForm')">
-                Submit
+                修改
               </a-button>
               <a-button
                 style="margin-left: 10px"
                 @click="resetForm('ruleForm')"
               >
-                Reset
+                重置
               </a-button>
             </a-form-model-item>
           </a-form-model>

@@ -64,7 +64,12 @@
           <a-input v-model="form.academy" :disabled="flag" />
         </a-form-item>
         <a-form-item label="性别">
-          <a-input v-model="form.sex" :disabled="flag" />
+          <div v-if="flag">{{form.sex}}</div>
+          <a-radio-group v-else v-model="form.sex">
+<a-radio value="男">男</a-radio>
+<a-radio value="女">女</a-radio>
+
+          </a-radio-group>
         </a-form-item>
         <a-form-item label="年纪">
           <a-input v-model="form.age" :disabled="flag" />

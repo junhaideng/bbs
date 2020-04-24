@@ -15,7 +15,9 @@
 
             </a-carousel>
             <div :style="{margin: '36px'}"></div>
-            <div :style="{ background: '#fff', padding: '24px', minHeight: '480px' }">Content</div>
+            <div :style="{ background: '#fff', padding: '24px', minHeight: '480px' }">
+                <slot name="content">Content</slot>
+            </div>
         </a-layout-content>
     </a-layout>
 </template>
