@@ -1,6 +1,6 @@
 const Mock = require('mockjs')
 
-
+// 用户信息
 Mock.mock("/user/userinfo/", 'get', {
     "data|10":[
         {
@@ -10,6 +10,7 @@ Mock.mock("/user/userinfo/", 'get', {
     ]
 })
 
+// 用户登录 TODO
 Mock.mock("/user/login/", "post", function(options){  // 用户 提交的内容在body里面
     console.log(options)
     return Mock.mock({
@@ -23,6 +24,7 @@ Mock.mock("/user/login/", "post", function(options){  // 用户 提交的内容�
     })
 })
 
+// 用户上传的文件 TODO
 Mock.mock("/user/profile/files/", "post", function(options){
     console.log(options)
     return Mock.mock({
@@ -41,10 +43,11 @@ Mock.mock("/user/profile/files/", "post", function(options){
 })
 
 
+// 登录日志 TODO
 Mock.mock("/user/profile/log", 'post', function(options){
     console.log(options)
     return Mock.mock({
-        "data|100":[
+        "data|40-96":[
             {
                 ip:"@ip()",
                 date:"@date()",
@@ -55,6 +58,7 @@ Mock.mock("/user/profile/log", 'post', function(options){
 })
 
 
+// 上传文件 TODO
 Mock.mock("/file/upload", "post", function(options){
     console.log(options)
     return Mock.mock({
@@ -64,8 +68,11 @@ Mock.mock("/file/upload", "post", function(options){
     })
 })
 
-Mock.mock("/user/articles", 'get', {
-    "data|40-90":[
+// 用户帖子  TODO
+Mock.mock("/user/articles", 'post', function(options){
+    console.log(options);
+    return Mock.mock({
+        "data|40-90":[
         {
             title: "@cword(6,10)",
             content: "@cword(100)",
@@ -82,14 +89,32 @@ Mock.mock("/user/articles", 'get', {
             ]
         }
     ]
+    })
 })
 
 
+// 消息通知数目 TODO
 Mock.mock("/user/messageCount", "post", function(options){
     console.log(options.body)
     return Mock.mock({
         data:{
            messageCount: 1000
         }
+    })
+})
+
+// 信息通知具体信息
+Mock.mock("/user/profile/messages", "post", function(options){
+    console.log(options)
+    return Mock.mock({
+        "data|20":[
+            {
+                type: "@integer(0,2)", // 消息，评论， 收藏
+                post: "@cword(10,20)",
+                user: "@cword(2,4)",
+                userId: "@integer(0,100)",
+                url: "@url"
+            }
+        ]
     })
 })

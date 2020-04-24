@@ -40,7 +40,7 @@ export default {
   name: "Article",
   mounted() {
     this.$axios
-      .get("/user/articles")
+      .post("/user/articles", {"userId":2})
       .then((res) => {
         this.listData = res.data.data;
         console.log(this.data);

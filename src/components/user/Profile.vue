@@ -1,17 +1,18 @@
 <template>
   <div>
     <a-layout>
-      <Header />
+      <Header :select-keys="[]"/>
       <a-layout-content
-        :style="{width:'90%', margin: 'auto', marginTop: '20px',minHeight}"
+        :style="{width:'90%', margin: 'auto', marginTop: '20px'}"
       >
         <a-row>
           <a-col :span="5">
             <Sidebar :selectedKeys="thisSelectedKeys" :open-keys="thisOpenKeys" />
           </a-col>
           <a-col :span="18">
-            <a-layout-content :style="{backgroundColor: 'white', minHeight, marginLeft: '20px'}">
+            <a-layout-content :style="{backgroundColor: 'white', minHeight: '578px', marginLeft: '20px'}">
               <slot name="content">Welcome come here</slot>
+              <router-view></router-view>
             </a-layout-content>
           </a-col>
         </a-row>
@@ -45,15 +46,12 @@ export default {
     Footer,
     Sidebar
   },
-  mounted(){
-    this.minHeight = document.body.clientHeight-200 + "px";
-    
-  },
+  
   data() {
     return {
       thisOpenKeys:this.openKeys,
       thisSelectedKeys: this.selectedKeys,
-      minHeight: ""
+
       };
       
     }

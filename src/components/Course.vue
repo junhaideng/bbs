@@ -2,6 +2,7 @@
     <div>
         <a-layout>
             <Header :select-keys="selectKeys"/>
+            <Content/>
             <Footer/>
         </a-layout>
     </div>
@@ -10,10 +11,11 @@
 <script>
     import Header from "./Header";
     import Footer from "./Footer";
+    import Content from "./Content"
 
     export default {
         name: "Course",
-        components: {Footer, Header},
+        components: {Footer, Header, Content},
         data() {
             return {
                 selectKeys: ['2']

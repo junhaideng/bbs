@@ -4,7 +4,7 @@ import Community from "../components/Community";
 import Course from "../components/Course";
 import Home from "../components/Home";
 import SignUp from "../components/user/SignUp";
-import Profile from '../components/user/Profile'
+import UserInfo from '../components/user/UserInfo'
 import Files from "../components/user/Files";
 import LoginLog from "../components/user/LoginLog"
 import FileUpload from "../components/user/FileUpload"
@@ -17,7 +17,7 @@ import PasswordChange from "../components/user/PasswordChange"
 
 Vue.use(Router);
 
-export default new Router({
+const router =  new Router({
   mode: 'history',
   routes: [{
       path: "/",
@@ -26,27 +26,42 @@ export default new Router({
     {
       path: '/index',
       name: 'index',
-      component: Home
+      component: Home,
+      meta:{
+        title: "主页"
+      }
     },
     {
       path: '/community',
       name: 'community',
-      component: Community
+      component: Community,
+      meta:{
+        title: "社区"
+      }
     },
     {
       path: "/course",
       name: "course",
-      component: Course
+      component: Course,
+      meta:{
+        title: "课程"
+      }
     },
     {
       path: '/signup',
       name: 'signup',
-      component: SignUp
+      component: SignUp,
+      meta:{
+        title: "登录"
+      }
     },
     {
       path: '/user/profile/',
       name: 'profile',
-      component: Profile,
+      component: UserInfo,
+      meta:{
+        title: "个人资料"
+      }
       // children:[
       //   {
       //     path: 'files',  // 不要加  / 否则被认为是根目录
@@ -63,48 +78,85 @@ export default new Router({
     {
       path: '/user/profile/files',
       name: 'files',
-      component: Files
+      component: Files,
+      meta:{
+        title: "我的文件"
+      }
     },
     {
       path: '/user/profile/log',
       name: 'log',
-      component: LoginLog
+      component: LoginLog,
+      meta:{
+        title: "登录日志"
+      }
     },
     {
       path: '/user/profile/upload',
       name: 'upload',
-      component: FileUpload
+      component: FileUpload,
+      meta:{
+        title: "上传文件"
+      }
     },
     {
       path: "/user/profile/post",
       name: "post",
-      component: Post
+      component: Post,
+      meta:{
+        title: "发帖"
+      }
     },
     {
       path: "/user/profile/change-password",
       name: "change-password",
-      component: PasswordChange
+      component: PasswordChange,
+      meta:{
+        title: "修改密码"
+      }
     },
     {
       path: "/user/profile/messages",
       name: "messages",
-      component: Message
+      component: Message,
+      meta:{
+        title: "信息通知"
+      }
     },
     {
       path: "/user/profile/message-settings",
       name: "message-settings",
-      component: MessageSettings
+      component: MessageSettings,
+      meta:{
+        title: "消息设置"
+      }
     },
     {
       path: "/user/profile/out",
       name: "out",
-      component: Out
+      component: Out,
+      meta:{
+        title: "注销账号"
+      }
     },
     {
       path: "/user/profile/article",
       name: "article",
-      component: Article
+      component: Article,
+      meta:{
+        title: "我的帖子"
+      }
     }
   ],
 
 })
+
+router.beforeEach((to, from, next) => {
+  // to来自  from  去哪
+  if(to.meta.title) {
+    document.title = to.meta.title
+  }
+  next()
+})
+
+export default router

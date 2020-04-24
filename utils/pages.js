@@ -1,3 +1,4 @@
+// 如果在vue.config.js中使用该方式，似乎其他的选项没有作用
 const glob = require('glob')
 let pages = {}
 module.exports.pages = function () {

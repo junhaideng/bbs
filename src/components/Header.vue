@@ -44,6 +44,7 @@
                 <a-badge
                   :count="messageCount"
                   :title="'你有' + messageCount + '未读信息'"
+                  dot
                   ><a-avatar
                     src="https://dummyimage.com/200x100/50B347/FFF&text=Mock.js"
                   /> </a-badge

@@ -6,11 +6,12 @@ import router from "./router/index.js"
 import axios from 'axios'
 import '../mock/'
 import store from './vuex/store'
+
 Vue.prototype.$axios = axios;
 
 Vue.use(Andt);
 
-Vue.config.productionTip = true;
+Vue.config.productionTip = false;
 
 new Vue({
   store,
