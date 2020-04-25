@@ -5,7 +5,7 @@ import 'ant-design-vue/dist/antd.css'
 import router from "./router/index.js"
 import axios from 'axios'
 import '../mock/'
-import store from './vuex/store'
+import store from './store'
 
 Vue.prototype.$axios = axios;
 

@@ -118,3 +118,15 @@ Mock.mock("/user/profile/messages", "post", function(options){
         ]
     })
 })
+
+Mock.mock("/api/get_post", "get", {
+    "data|20-30":[
+        {
+            username: "@cword(2,8)",
+            avatar: "@image('200x100', '#50B347', '#FFF', 'test')",
+            type: "@integer(0, 4)",
+            title: "@cword(10,20)",
+            content: "@cword(40,100)"
+        }
+    ]
+})

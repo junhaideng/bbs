@@ -5,41 +5,38 @@
       <template v-slot:content>
         <a-row>
           <a-col :span="16" :offset="4">
-            <div class="global-search-wrapper" style="width: 300px">
-    <a-auto-complete
-      class="global-search"
-      size="large"
-      style="width: 100%"
-      @select="onSelect"
-      @search="handleSearch"
-      placeholder="input here"
-      optionLabelProp="text"
-    >
-      <template slot="dataSource">
-        <a-select-option v-for="item in dataSource" :key="item.category" :text="item.category">
-          Found {{ item.query }} on
-          <a
-            :href="`https://s.taobao.com/search?q=${item.query}`"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {{ item.category }}
-          </a>
-          <span className="global-search-item-count">{{ item.count }} results</span>
-        </a-select-option>
-      </template>
-      <a-input>
-        <a-button
-          slot="suffix"
-          style="margin-right: -12px"
-          class="search-btn"
-          size="large"
-          type="primary"
-        >
-          <a-icon type="search" />
-        </a-button>
-      </a-input>
-    </a-auto-complete>
+            <div class="global-search-wrapper" style="width: 400px">
+              <a-auto-complete
+                class="global-search"
+                size="large"
+                style="width: 100%"
+                @select="onSelect"
+                @search="handleSearch"
+                placeholder="在这里输入你想要查询的内容"
+                optionLabelProp="text"
+              >
+                <template slot="dataSource" v-if="showFlag">
+                  <a-select-opt-group v-for="(item, index) in dataSource" :key="index"
+                  >
+                    <template v-slot:label><div :style="{fontSize: '1.17em'}">{{item.type}}</div></template>
+                    <a-select-option v-for="(data, index) in item.data" :key="data" :value="String(data)">
+                      <a :href="`/search/?query=${item.query[index]}`" target="_blank"  rel="noopener noreferrer">{{data}}</a>
+                    </a-select-option>
+                    
+                  </a-select-opt-group>
+                </template>
+                <a-input>
+                  <a-button
+                    slot="suffix"
+                    style="margin-right: -12px"
+                    class="search-btn"
+                    size="large"
+                    type="primary"
+                  >
+                    <a-icon type="search" />
+                  </a-button>
+                </a-input>
+              </a-auto-complete>
             </div>
           </a-col>
         </a-row>
@@ -54,6 +51,7 @@
 import Header from "./Header";
 import Footer from "./Footer";
 import Content from "./Content";
+import search from "../api/search";
 
 export default {
   name: "Home",
@@ -65,33 +63,26 @@ export default {
   data() {
     return {
       selectKeys: ["1"],
-       dataSource: [],
+      dataSource: [],
       value: "",
+      showFlag: false,
     };
   },
   methods: {
-   onSelect(value) {
-      console.log('onSelect', value);
+    onSelect(value) {
+      console.log("onSelect", value);
     },
 
     handleSearch(value) {
-      this.dataSource = value ? this.searchResult(value) : [];
+      this.dataSource = search.search(value);
+      if(value.trim()){
+        this.showFlag = true
+      }else{
+        this.showFlag = false
+      }
+      console.log();
     },
-
-    getRandomInt(max, min = 0) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    },
-
-    searchResult(query) {
-      return new Array(this.getRandomInt(5))
-        .join('.')
-        .split('.')
-        .map((item, idx) => ({
-          query,
-          category: `${query}${idx}`,
-          count: this.getRandomInt(200, 100),
-        }));
-    },}
+  },
 };
 </script>
 

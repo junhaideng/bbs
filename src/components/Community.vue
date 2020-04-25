@@ -3,7 +3,11 @@
 
         <a-layout>
             <Header :select-keys="selectKeys"/>
-            <Content/>
+            <Content>
+                <template v-slot:content>
+{{dataSource}}
+                </template>
+            </Content>
             <Footer/>
         </a-layout>
 
@@ -24,8 +28,12 @@
         },
         data(){
             return {
-                selectKeys: ['3']
+                selectKeys: ['3'],
+                dataSource: [],
             }
+        },
+        mounted(){
+            this.$axios.get("/api/get_post").then(res=>{this.dataSource = res.data.data;}).catch(err=>{console.log(err)})
         }
 
     }
