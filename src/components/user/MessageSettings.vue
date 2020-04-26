@@ -2,7 +2,7 @@
   <Profile :selectedKeys="thisSelectedKeys" :open-keys="thisOpenKeys">
 
       <template v-slot:content>
-         
+
   <a-row >
     <a-col :span="20" :offset="6" :style="{marginTop: '50px'}" >
                   <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
@@ -15,9 +15,9 @@
     <a-form-model-item label="有收藏信息时通知我">
       <a-switch v-model="form.star" />
     </a-form-model-item>
-  
-    
-         
+
+
+
               </a-form-model>
                <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
       <a-button type="primary" @click="onSubmit">
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import Profile from "./Profile";
+import Profile from "./common/Profile";
 export default {
   name: "MessageSettings",
   components: {
@@ -53,7 +53,7 @@ export default {
         star: true,
       },
     };
-    
+
   },
   methods: {
     onSubmit() {

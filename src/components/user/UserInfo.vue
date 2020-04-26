@@ -61,7 +61,13 @@
         :wrapper-col="wrapperCol"
       >
         <a-form-item label="学院">
-          <a-input v-model="form.academy" :disabled="flag" />
+          <keep-alive>
+            <div v-if="flag">{{form.academy}}</div>
+            <a-select v-else v-model="form.academy">
+              <a-select-option v-for="(academy, index) in academySource" :key="index" :value="academy">{{academy}}</a-select-option>
+            </a-select>
+          </keep-alive>
+
         </a-form-item>
         <a-form-item label="性别">
           <div v-if="flag">{{form.sex}}</div>
@@ -72,13 +78,29 @@
           </a-radio-group>
         </a-form-item>
         <a-form-item label="年纪">
-          <a-input v-model="form.age" :disabled="flag" />
+          <keep-alive>
+            <div v-if="flag">
+              {{form.age}}
+            </div>
+            <a-input-number v-model="form.age" v-else></a-input-number>
+          </keep-alive>
         </a-form-item>
         <a-form-item label="年级">
-          <a-input v-model="form.grade" :disabled="flag" />
+           <keep-alive>
+              <div v-if="flag">{{form.grade}}</div>
+
+          <a-select v-else v-model="form.grade">
+            <a-select-option key="1" value="1">大一</a-select-option>
+            <a-select-option key="2" value="2">大二</a-select-option>
+            <a-select-option key="3" value="3">大三</a-select-option>
+            <a-select-option key="4" value="4">大四</a-select-option>
+            <a-select-option key="5" value="5">其他</a-select-option>
+          </a-select>
+           </keep-alive>
         </a-form-item>
         <a-form-item label="邮箱">
-          <a-input v-model="form.email" :disabled="flag" />
+          <div v-if="flag">{{form.email}}</div>
+          <a-input v-else type="email" v-model="form.email"></a-input>
         </a-form-item>
       </a-form-model>
 
@@ -115,7 +137,9 @@ const data = ["学院", "性别", "年龄", "年级", "邮箱"];
 //     {type: "邮箱", name:"201648748@qq.com"}
 // ]
 
-import Profile from "./Profile";
+const academySource = ["电院", "农生", "材料", "生医工", "安泰", "人文"]
+
+import Profile from "./common/Profile";
 
 export default {
   name: "UserInfo",
@@ -132,6 +156,7 @@ export default {
       desc: "这个人太懒了，什么也没有留下",
       flag: true,
       data,
+      academySource,
       form: {
         academy: "电院",
         sex: "男",

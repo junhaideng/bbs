@@ -165,7 +165,7 @@
 </template>
 
 <script>
-import Login from "./user/Login";
+import Login from "../user/Login";
 import { mapActions, mapState } from "vuex";
 
 export default {

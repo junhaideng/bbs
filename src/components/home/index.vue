@@ -1,6 +1,7 @@
 <template>
   <a-layout>
     <Header :select-keys="selectKeys" />
+<Carousel/>
     <Content>
       <template v-slot:content>
         <a-row>
@@ -19,19 +20,20 @@
                   <a-select-opt-group v-for="(item, index) in dataSource" :key="index"
                   >
                     <template v-slot:label><div :style="{fontSize: '1.17em'}">{{item.type}}</div></template>
-                    <a-select-option v-for="(data, index) in item.data" :key="data" :value="String(data)">
-                      <a :href="`/search/?query=${item.query[index]}`" target="_blank"  rel="noopener noreferrer">{{data}}</a>
+                    <a-select-option v-for="(data) in item.data" :key="data" :value="String(data)">
+                      {{data}}
                     </a-select-option>
-                    
+
                   </a-select-opt-group>
                 </template>
-                <a-input>
+                <a-input v-model="value">
                   <a-button
                     slot="suffix"
                     style="margin-right: -12px"
                     class="search-btn"
                     size="large"
                     type="primary"
+                    @click="handleClick"
                   >
                     <a-icon type="search" />
                   </a-button>
@@ -48,10 +50,11 @@
 </template>
 
 <script>
-import Header from "./Header";
-import Footer from "./Footer";
-import Content from "./Content";
-import search from "../api/search";
+import Header from "../common/Header";
+import Footer from "../common/Footer";
+import Content from "../common/Content";
+// import search from "../api/search";
+import Carousel from "../common/Carousel";
 
 export default {
   name: "Home",
@@ -59,6 +62,7 @@ export default {
     Header,
     Footer,
     Content,
+    Carousel,
   },
   data() {
     return {
@@ -70,11 +74,13 @@ export default {
   },
   methods: {
     onSelect(value) {
-      console.log("onSelect", value);
+      let router = this.$router.resolve({"path":"/search", query:{q: value}})
+      window.open(router.href)
     },
 
     handleSearch(value) {
-      this.dataSource = search.search(value);
+      this.$axios.post("/api/search", {q: value}).then(res=>{this.dataSource = res.data});
+      console.log(this.dataSource)
       if(value.trim()){
         this.showFlag = true
       }else{
@@ -82,6 +88,13 @@ export default {
       }
       console.log();
     },
+    handleClick(){
+      if(this.value.trim()){
+      console.log("进行搜索", this.value)
+      }else{
+        this.$message.warning("请输入搜索内容", 1)
+      }
+    }
   },
 };
 </script>

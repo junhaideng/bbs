@@ -79,7 +79,7 @@ const columns = [
   },
 ];
 
-import Profile from "./Profile";
+import Profile from "./common/Profile";
 
 export default {
   name: "Files",

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import Course from '../../components/Course'
+    import Course from '../../components/course/index'
     export default {
         name: 'App',
         components: {

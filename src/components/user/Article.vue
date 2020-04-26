@@ -14,7 +14,7 @@
                 <template slot="actions" v-for="(type, index) in actions">
                   <span :key="type">
                     <a-icon :type="type" style="margin-right: 8px" />
-                     {{item.data[index]}} 
+                     {{item.data[index]}}
                   </span>
                 </template>
 
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import Profile from "./Profile";
+import Profile from "./common/Profile";
 export default {
   name: "Article",
   mounted() {
@@ -44,7 +44,7 @@ export default {
       .then((res) => {
         this.listData = res.data.data;
         console.log(this.data);
-     
+
       })
       .catch((err) => {
         console.log(err);

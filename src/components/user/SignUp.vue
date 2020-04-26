@@ -167,8 +167,8 @@
 </template>
 
 <script>
-import Footer from "../Footer";
-import Header from "../Header";
+import Footer from "../common/Footer";
+import Header from "../common/Header";
 import axios from "axios";
 import qs from "qs";
 

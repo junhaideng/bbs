@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import Community from '../../components/Community'
+    import Community from '../../components/community/index'
     export default {
         name: 'App',
         components: {

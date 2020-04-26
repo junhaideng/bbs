@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import Header from "../Header";
-import Footer from "../Footer";
+import Header from "../../common/Header";
+import Footer from "../../common/Footer";
 import Sidebar from "./Sidebar";
 
 export default {
@@ -46,16 +46,16 @@ export default {
     Footer,
     Sidebar
   },
-  
+
   data() {
     return {
       thisOpenKeys:this.openKeys,
       thisSelectedKeys: this.selectedKeys,
 
       };
-      
+
     }
-  
+
 };
 </script>
 

@@ -9,9 +9,9 @@
 </template>
 
 <script>
-    import Header from "./Header";
-    import Footer from "./Footer";
-    import Content from "./Content"
+    import Header from "../common/Header";
+    import Footer from "../common/Footer";
+    import Content from "../common/Content"
 
     export default {
         name: "Course",

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import Profile from '../../components/user/Profile'
+    import Profile from '../../components/user/common/Profile'
     export default {
         name: 'App',
         components: {

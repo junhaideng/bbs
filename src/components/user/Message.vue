@@ -9,17 +9,17 @@
          size="large"
          :dataSource="listData"
          itemLayout="vertical"
-        
+
          >
              <a-list-item slot="renderItem" slot-scope="item" key="item.title" >
-             
+
              <a-list-item-meta :description="item.description">
                   <div slot="title"
                     ><a :href="'/'+item.userId">{{item.user}} </a><b>{{item.type | messageType}} 了你的帖子</b></div
                   >
                 </a-list-item-meta>
                 <a :href="item.url">{{item.post}}</a>
-                
+
            </a-list-item>
 
          </a-list>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import Profile from "./Profile";
+import Profile from "./common/Profile";
 export default {
   name: "Message",
   mounted() {
@@ -40,7 +40,7 @@ export default {
         console.log(this.data);
 
         this.listData = res.data.data;
-     
+
       })
       .catch((err) => {
         console.log(err);

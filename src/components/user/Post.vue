@@ -27,7 +27,7 @@
 <script>
 const courseType = {"physical":"物理实验", "chemical":"化学实验", "electronic":"电子技术实验"}
 
-import Profile from "./Profile";
+import Profile from "./common/Profile";
 export default {
   name: "Post",
   components: {

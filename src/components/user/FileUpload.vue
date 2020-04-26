@@ -43,7 +43,7 @@
         "
       />
     </a-form-model-item>
- 
+
 
     <a-form-model-item label="实验类型" prop="type">
 
@@ -62,7 +62,7 @@
         </a-select-option>
       </a-select>
     </a-form-model-item>
-   
+
     <a-form-model-item label="文件描述" prop="desc">
       <a-input v-model="form.desc" type="textarea" placeholder="请输入文件描述" />
     </a-form-model-item>
@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import Profile from "./Profile"
+import Profile from "./common/Profile"
 
 export default {
   data() {
@@ -110,7 +110,7 @@ export default {
         file:[
           {required:true, message: "请选择文件", trigger: 'submit'}
         ],
-        
+
         desc: [{ required: true, message: '请输入实验描述', trigger: 'submit' }],
       },
     };

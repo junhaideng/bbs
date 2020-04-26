@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Community from "../components/Community";
-import Course from "../components/Course";
-import Home from "../components/Home";
+import Community from "../components/community/index";
+import Course from "../components/course/index";
+import Home from "../components/home/index";
 import SignUp from "../components/user/SignUp";
 import UserInfo from '../components/user/UserInfo'
 import Files from "../components/user/Files";
@@ -12,7 +12,7 @@ import Article from "../components/user/Article"
 import Post from "../components/user/Post"
 import Message from "../components/user/Message"
 import MessageSettings from "../components/user/MessageSettings"
-import Out from "../components/user/Out"
+import Out from "../components/user/common/Out"
 import PasswordChange from "../components/user/PasswordChange"
 
 Vue.use(Router);

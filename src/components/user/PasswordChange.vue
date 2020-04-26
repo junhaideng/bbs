@@ -27,7 +27,7 @@
               />
             </a-form-model-item>
 
-        
+
             <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
               <a-button type="primary" @click="submitForm('ruleForm')">
                 修改
@@ -47,14 +47,14 @@
 </template>
 
 <script>
-import Profile from "./Profile";
+import Profile from "./common/Profile";
 export default {
   name: "PasswordChange",
   components: {
     Profile,
   },
   data() {
-  
+
     let validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入旧密码"));
@@ -90,7 +90,7 @@ callback(new Error("新密码长度不能够小于6"))
       },
       thisSelectedKeys: ["7"],
       thisOpenKeys: ["sub4"],
-      username: "Edgar", // TODO 
+      username: "Edgar", // TODO
     };
   },
   methods: {
