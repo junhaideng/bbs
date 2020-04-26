@@ -1,11 +1,13 @@
 {
   "name": "bbs",
   "version": "0.1.0",
-  "private": true,
+  "description": "A bbs website build with vue using antdv to beautify",
+  "author": "Edgar",
+  "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
+      "lint": "vue-cli-service lint",
     "dev-build": "vue-cli-service build --mode development"
   },
   "dependencies": {
@@ -22,6 +24,12 @@
     "vue-router": "^3.1.6",
     "vuex": "^3.2.0"
   },
+  "keywords": [
+    "vue",
+    "antdv",
+    "mockjs",
+    "bbs"
+  ],
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",
     "@vue/cli-plugin-eslint": "~4.3.0",
