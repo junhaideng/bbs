@@ -13,7 +13,7 @@
               <a-menu-item key="1">
                 <a href="/index">
                   <a-icon type="home" />
-                  主页</a
+                  {{$t('common.home')}}</a
                 >
               </a-menu-item>
               <a-menu-item key="2">
@@ -123,6 +123,13 @@
                     退出登录
                   </a>
                 </a-menu-item>
+
+                <a-menu-item>
+                  <a href="javascript:;" @click="change('en_us')">
+                    <a-icon type="logout" :style="{ marginRight: '0.5rem' }" />
+                    切换语言
+                  </a>
+                </a-menu-item>
               </a-menu>
             </a-dropdown>
           </a-col>
@@ -195,6 +202,12 @@ export default {
   },
 
   methods: {
+    change(lang){
+      console.log(this.$i18n)
+this.$i18n.locale = lang
+
+
+    },
     login() {
       this.visible = !this.visible;
     },

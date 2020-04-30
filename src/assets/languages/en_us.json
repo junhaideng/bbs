@@ -1,0 +1,7 @@
+{
+    "common":{
+        "home": "Home",
+        "login": "Login",
+        "logout": "Logout"
+    }
+}

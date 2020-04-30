@@ -7,7 +7,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
-      "lint": "vue-cli-service lint",
+    "lint": "vue-cli-service lint",
     "dev-build": "vue-cli-service build --mode development"
   },
   "dependencies": {
@@ -20,6 +20,7 @@
     "mockjs": "^1.1.0",
     "qs": "^6.9.3",
     "vue": "^2.6.11",
+    "vue-i18n": "^8.17.4",
     "vue-route": "^1.5.1",
     "vue-router": "^3.1.6",
     "vuex": "^3.2.0"
