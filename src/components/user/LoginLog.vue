@@ -3,7 +3,7 @@
     <template v-slot:content>
           <a-row>
               <a-col :span="22" :offset="1">
-                  <a-table :columns="columns" :dataSource="data" rowKey="date"></a-table>
+                  <a-table :columns="columns" :dataSource="data" rowKey="create_time"></a-table>
               </a-col>
 
           </a-row>
@@ -22,8 +22,8 @@ const columns = [
   },
   {
     title: "登录时间",
-    dataIndex: "date",
-    key: "date",
+    dataIndex: "create_time",
+    key: "create_time",
     width: "30%"
   },
    {
@@ -35,6 +35,7 @@ const columns = [
 ];
 
 import Profile from "./common/Profile"
+
 
 export default {
   name: "LoginLog",
@@ -51,9 +52,9 @@ export default {
   },
   mounted() {
     this.$axios
-      .post("/user/profile/log", { userId: 11 })
+      .post("/api/user/loginlog")
       .then(res => {
-        this.data = res.data.data;
+        this.data = res.data;
         console.log(this.data);
       })
       .catch(err => {

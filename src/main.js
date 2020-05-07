@@ -4,11 +4,12 @@ import Andt from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 import router from "./router/index.js"
 import axios from 'axios'
-import '../mock/'
+// import '../mock/'
 import store from './store'
 import i18n from "./i18n"
 
 Vue.prototype.$axios = axios;
+axios.defaults.withCredentials=true;
 
 Vue.use(Andt);
 

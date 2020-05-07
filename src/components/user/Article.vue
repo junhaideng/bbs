@@ -3,7 +3,11 @@
     <Profile :selectedKeys="thisSelectedKeys" :open-keys="thisOpenKeys">
       <template v-slot:content>
         <a-row>
-          <a-col :span="20" offset="2" :style="{ marginLeft: '20px', marginBottom: '20px' }">
+          <a-col
+            :span="20"
+            offset="2"
+            :style="{ marginLeft: '20px', marginBottom: '20px' }"
+          >
             <a-list
               itemLayout="vertical"
               :pagination="pagination"
@@ -11,12 +15,32 @@
               :dataSource="listData"
             >
               <a-list-item slot="renderItem" slot-scope="item" key="item.title">
-                <template slot="actions" v-for="(type, index) in actions">
+                <!-- <template slot="actions" v-for="(type, index) in actions">
                   <span :key="type">
                     <a-icon :type="type" style="margin-right: 8px" />
                      {{item.data[index]}}
                   </span>
+                </template> -->
+                <template v-slot:actions>
+                  <span>
+                    <a-icon type="read" />
+                    {{ item.read }}
+                  </span>
+                   <span>
+                    <a-icon type="star-o" />
+                    {{ item.star }}
+                  </span>
+ <span>
+                    <a-icon type="message" />
+                    {{ item.comments }}
+                  </span>
+                   <span>
+                    <a-icon type="history" />
+                    {{ item.createTime }}
+                  </span>
                 </template>
+               
+             
 
                 <a-list-item-meta :description="item.description">
                   <a slot="title"
@@ -25,7 +49,6 @@
                 </a-list-item-meta>
                 {{ item.content }}
               </a-list-item>
-
             </a-list>
           </a-col>
         </a-row>
@@ -36,15 +59,14 @@
 
 <script>
 import Profile from "./common/Profile";
+
 export default {
   name: "Article",
   mounted() {
     this.$axios
-      .post("/user/articles", {"userId":2})
+      .post("/api/user/article")
       .then((res) => {
-        this.listData = res.data.data;
-        console.log(this.data);
-
+        this.listData = res.data;
       })
       .catch((err) => {
         console.log(err);
@@ -58,7 +80,7 @@ export default {
       thisOpenKeys: ["sub2"], // 打开第三个子菜单
       thisSelectedKeys: ["3"],
       listData: [],
-      actions: ["star-o", "like-o","message","history"],
+      actions: ["star-o", "like-o", "message", "history"],
       pagination: {
         onChange: (page) => {
           console.log(page);
@@ -70,5 +92,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

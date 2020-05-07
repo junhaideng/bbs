@@ -49,8 +49,8 @@
 const columns = [
   {
     title: "文件名",
-    dataIndex: "filename",
-    key: "key",
+    dataIndex: "fileName",
+    key: "fileName",
     width: "20%",
   },
   {
@@ -67,15 +67,15 @@ const columns = [
   },
   {
     title: "上传时间",
-    dataIndex: "date",
+    dataIndex: "uploadTime",
     width: "15%",
     key: "date",
   },
   {
     title: "文件描述",
-    dataIndex: "desc",
+    dataIndex: "description",
     width: "30%",
-    key: "desc",
+    key: "description",
   },
 ];
 
@@ -98,22 +98,44 @@ export default {
     Profile,
   },
   mounted() {
-    this.$axios
-      .post("/user/profile/files/")
-      .then((res) => {
-        this.dataSource = res.data.data;
-        this.data = this.dataSource;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.setData();
   },
   methods: {
     handleDelete() {
-      console.log(this.selectedRowKeys, "删除的文件");
+      this.$axios
+        .post("/api/user/delfiles", this.selectedRowKeys)
+        .then((res) => {
+          if (res.data.status === 200) {
+            this.$message.success(res.data.message);
+            this.setData();
+          } else {
+            this.$message.error(res.data.message);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     handleDownload() {
-      console.log(this.selectedRowKeys, "下载的文件");
+      this.selectedRowKeys.forEach((element) => {
+        let file = this.getFilename(element)[0];
+        let filename = file.fileName;
+        let suffix = "";
+        try {
+          suffix = file.path.split(".")[1];
+        } catch {
+          suffix = "";
+        }
+        let link = document.createElement("a");
+        if (suffix === "") {
+          link.download = filename;
+        } else {
+          link.download = filename + "." + suffix;
+        }
+        link.href = "/api/user/download?file_id="+element;
+        link.click();
+        link.remove();
+      });
     },
     onSearch(value) {
       this.data = [];
@@ -123,6 +145,22 @@ export default {
           console.log(element);
           this.data.push(element);
         }
+      });
+    },
+    setData() {
+      this.$axios
+        .post("/api/user/files/")
+        .then((res) => {
+          this.dataSource = res.data;
+          this.data = this.dataSource;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getFilename(id) {
+      return this.dataSource.filter((r) => {
+        if (r.id === id) return true;
       });
     },
   },
@@ -148,7 +186,7 @@ export default {
 };
 </script>
 
-<style >
+<style>
 /* .ant-table-content {
  min-height: 793px;
 } */

@@ -148,6 +148,24 @@
                 </a-select>
               </a-form-item>
 
+              <a-form-item label="年级" v-bind="formItemLayout">
+                <a-select
+                  v-decorator="[
+                    'grade',
+                    { rules: [{ required: true, message: '请选择你的年级!' }] },
+                  ]"
+                  placeholder="Select your grade"
+                >
+                  <a-select-option
+                    v-for="grade in grades"
+                    :value="grade"
+                    :key="grade"
+                  >
+                    {{ grade }}
+                  </a-select-option>
+                </a-select>
+              </a-form-item>
+
               <a-form-item v-bind="tailFormItemLayout">
                 <a-button
                   type="primary"
@@ -169,7 +187,6 @@
 <script>
 import Footer from "../common/Footer";
 import Header from "../common/Header";
-import axios from "axios";
 import qs from "qs";
 
 export default {
@@ -202,6 +219,7 @@ export default {
         },
       },
       academies: ["电院", "安泰管理学院"], // 可以动态请求
+      grades: ["大一", "大二", "大三", "大四", "其他"],
     };
   },
   beforeCreate() {
@@ -213,18 +231,26 @@ export default {
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);
-          axios
-            .post("/user/signup/", {
-              data: qs.stringify({
+          this.$axios
+            .post(
+              "/api/user/signup/",
+              qs.stringify({
                 username: values.username,
                 email: values.email,
                 password: values.password,
                 gender: values.gender,
                 academy: values.academy,
-              }),
-              params: "hello",
+                grade: values.grade,
+              })
+            )
+            .then((res) => {
+              if (res.data.status === 200) {
+                this.$message.success(res.data.message);
+                this.$router.push("/");
+              } else {
+                this.$message.error(res.data.message);
+              }
             })
-            .then((response) => console.log(response.data))
             .catch((err) => console.log(err));
         }
       });

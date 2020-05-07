@@ -28,7 +28,8 @@ const router =  new Router({
       name: 'index',
       component: Home,
       meta:{
-        title: "主页"
+        title: "主页",
+        loginRequired: false
       }
     },
     {
@@ -36,7 +37,8 @@ const router =  new Router({
       name: 'community',
       component: Community,
       meta:{
-        title: "社区"
+        title: "社区",
+        loginRequired: false
       }
     },
     {
@@ -44,7 +46,8 @@ const router =  new Router({
       name: "course",
       component: Course,
       meta:{
-        title: "课程"
+        title: "课程",
+        loginRequired: false
       }
     },
     {
@@ -52,7 +55,8 @@ const router =  new Router({
       name: 'signup',
       component: SignUp,
       meta:{
-        title: "登录"
+        title: "登录",
+        loginRequired: false
       }
     },
     {
@@ -60,7 +64,8 @@ const router =  new Router({
       name: 'profile',
       component: UserInfo,
       meta:{
-        title: "个人资料"
+        title: "个人资料",
+        loginRequired: true
       }
       // children:[
       //   {
@@ -80,7 +85,8 @@ const router =  new Router({
       name: 'files',
       component: Files,
       meta:{
-        title: "我的文件"
+        title: "我的文件",
+        loginRequired: true
       }
     },
     {
@@ -88,7 +94,8 @@ const router =  new Router({
       name: 'log',
       component: LoginLog,
       meta:{
-        title: "登录日志"
+        title: "登录日志",
+        loginRequired: true
       }
     },
     {
@@ -96,7 +103,8 @@ const router =  new Router({
       name: 'upload',
       component: FileUpload,
       meta:{
-        title: "上传文件"
+        title: "上传文件",
+        loginRequired: true
       }
     },
     {
@@ -104,7 +112,8 @@ const router =  new Router({
       name: "post",
       component: Post,
       meta:{
-        title: "发帖"
+        title: "发帖",
+        loginRequired: true
       }
     },
     {
@@ -112,7 +121,8 @@ const router =  new Router({
       name: "change-password",
       component: PasswordChange,
       meta:{
-        title: "修改密码"
+        title: "修改密码",
+        loginRequired: true
       }
     },
     {
@@ -120,7 +130,8 @@ const router =  new Router({
       name: "messages",
       component: Message,
       meta:{
-        title: "信息通知"
+        title: "信息通知",
+        loginRequired: true
       }
     },
     {
@@ -128,7 +139,8 @@ const router =  new Router({
       name: "message-settings",
       component: MessageSettings,
       meta:{
-        title: "消息设置"
+        title: "消息设置",
+        loginRequired: true
       }
     },
     {
@@ -136,7 +148,8 @@ const router =  new Router({
       name: "out",
       component: Out,
       meta:{
-        title: "注销账号"
+        title: "注销账号",
+        loginRequired: true
       }
     },
     {
@@ -144,7 +157,8 @@ const router =  new Router({
       name: "article",
       component: Article,
       meta:{
-        title: "我的帖子"
+        title: "我的帖子",
+        loginRequired: true
       }
     }
   ],
@@ -156,6 +170,12 @@ router.beforeEach((to, from, next) => {
   if(to.meta.title) {
     document.title = to.meta.title
   }
+  if(to.meta.loginRequired && !sessionStorage.getItem("isLogin")){
+    Vue.prototype.$message.error("请先进行登录", 2)
+    sessionStorage.setItem("next", to.fullPath)
+    next("/")
+  }
+
   next()
 })
 

@@ -1,7 +1,7 @@
 <template>
   <Profile :selectedKeys="thisSelectedKeys" :open-keys="thisOpenKeys">
     <template v-slot:content>
-      <a-row :style="{paddingTop: '40px'}">
+      <a-row :style="{ paddingTop: '40px' }">
         <a-col :span="16" :offset="4">
           <a-form-model
             ref="ruleForm"
@@ -9,9 +9,9 @@
             :rules="rules"
             v-bind="layout"
           >
-          <a-form-item label="用户名">
-            <div>{{username}}</div>
-          </a-form-item>
+            <a-form-item label="用户名">
+              <div>{{ username }}</div>
+            </a-form-item>
             <a-form-model-item label="旧密码" prop="pass">
               <a-input
                 v-model="ruleForm.pass"
@@ -26,7 +26,6 @@
                 autocomplete="off"
               />
             </a-form-model-item>
-
 
             <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
               <a-button type="primary" @click="submitForm('ruleForm')">
@@ -48,18 +47,19 @@
 
 <script>
 import Profile from "./common/Profile";
+import qs from "qs";
+
 export default {
   name: "PasswordChange",
   components: {
     Profile,
   },
   data() {
-
     let validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入旧密码"));
-      }else{
-        callback()
+      } else {
+        callback();
       }
     };
     let validatePass2 = (rule, value, callback) => {
@@ -67,10 +67,9 @@ export default {
         callback(new Error("新密码不能为空"));
       } else if (value === this.ruleForm.pass) {
         callback(new Error("输入的前后密码不能够相同"));
-      } else if(value.length <6){
-callback(new Error("新密码长度不能够小于6"))
-      }
-      else {
+      } else if (value.length < 6) {
+        callback(new Error("新密码长度不能够小于6"));
+      } else {
         callback();
       }
     };
@@ -78,7 +77,6 @@ callback(new Error("新密码长度不能够小于6"))
       ruleForm: {
         pass: "",
         checkPass: "",
-        age: "",
       },
       rules: {
         pass: [{ validator: validatePass, trigger: "change" }],
@@ -90,14 +88,33 @@ callback(new Error("新密码长度不能够小于6"))
       },
       thisSelectedKeys: ["7"],
       thisOpenKeys: ["sub4"],
-      username: "Edgar", // TODO
+      username: sessionStorage.getItem("username"), // TODO
     };
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log("可以上传数据了")
+      
+          this.$axios.post(
+            "/api/user/update",
+            qs.stringify({
+              username: this.username,
+              oldPassword: this.ruleForm.pass,
+              newPassword: this.ruleForm.checkPass,
+            })
+          ).then(res=> {
+            if(res.data.status===200){
+              this.$message.success(res.data.message);
+              sessionStorage.clear();
+              this.$router.push("/")
+            }else{
+              this.$message.error(res.data.message)
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+          ;
         } else {
           console.log("error submit!!");
           return false;

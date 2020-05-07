@@ -84,7 +84,7 @@ Mock.mock("/user/articles", 'post', function (options) {
 
 
 // 消息通知数目 TODO
-Mock.mock("/user/messageCount", "post", function (options) {
+Mock.mock("/api/user/messageCount", "post", function (options) {
     console.log(options.body)
     return Mock.mock({
         data: {

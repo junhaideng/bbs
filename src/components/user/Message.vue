@@ -35,7 +35,7 @@ export default {
   name: "Message",
   mounted() {
     this.$axios
-      .post("/user/profile/messages", {userId: 2})
+      .post("/api/user/message")
       .then((res) => {
         console.log(this.data);
 

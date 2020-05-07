@@ -1,33 +1,30 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
-import axios from 'axios'
+import actions from './actions'
 
 
 const store = new Vuex.Store({
     state: {
-        messageCount: 0
+        messageCount: 0,
+        isLogin: false,
+        next: "",  // 下一个页面的跳转
     },
     mutations: {
         setMessageCount(state, messageCount) {
             state.messageCount = messageCount
            
+        },
+        setIsLogin(state, flag){
+            console.log(flag)
+            state.isLogin = flag
+        },
+
+        setNext(state, next){
+            state.next = next;
         }
     },
-    actions: {
-        getMessageCount(context) {
-            axios.post("/user/messageCount", {
-                "userId": 2
-            }).then(res => {
-                let messageCount = res.data.data.messageCount;
-               
-                context.commit("setMessageCount", messageCount)
-                
-            }).catch(err => {
-                console.log(err)
-            })
-        }
-    }
+    actions
 
 })
 

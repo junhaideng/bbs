@@ -13,6 +13,7 @@
               <a-menu-item key="1">
                 <a href="/index">
                   <a-icon type="home" />
+                  <!-- 调用语言包中的内容 -->
                   {{$t('common.home')}}</a
                 >
               </a-menu-item>
@@ -118,7 +119,7 @@
                 <a-menu-divider />
 
                 <a-menu-item>
-                  <a href="/logout">
+                  <a href="javascript:;" @click="logout">
                     <a-icon type="logout" :style="{ marginRight: '0.5rem' }" />
                     退出登录
                   </a>
@@ -156,7 +157,7 @@
                   :centered="true"
                   @cancel="handleCancel"
                 >
-                  <Login ref="login" @click="login" />
+                  <Login ref="login" @click="login" @close="close"/>
                 </a-modal>
               </a-list-item>
 
@@ -173,7 +174,7 @@
 
 <script>
 import Login from "../user/Login";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapMutations } from "vuex";
 
 export default {
   name: "Header",
@@ -185,16 +186,19 @@ export default {
     },
   },
   mounted() {
-    this.getMessageCount();
+    // this.getMessageCount();
+    if(sessionStorage.getItem("isLogin")){
+      this.isLogin = true
+    }
   },
   components: {
     Login,
   },
   data() {
     return {
-      isLogin: true,
       visible: false,
       keys: this.selectKeys,
+      isLogin: false,
     };
   },
   computed: {
@@ -205,18 +209,26 @@ export default {
     change(lang){
       console.log(this.$i18n)
 this.$i18n.locale = lang
-
-
+    },
+    close(){
+      this.visible = false
     },
     login() {
-      this.visible = !this.visible;
+      this.visible = true;
     },
     handleCancel() {
-      this.visible = !this.visible;
+      this.visible = false;
       this.$refs.login.clearInput();
     },
     ...mapActions(["getMessageCount"]),
+    ...mapMutations(["setIsLogin"]),
+    logout(){
+      this.visible = false;
+      sessionStorage.clear();
+      window.location.reload();
+    }
   },
+
 };
 </script>
 

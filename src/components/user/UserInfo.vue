@@ -9,16 +9,38 @@
       <a-divider></a-divider>
       <a-row align="top">
         <a-col :span="3" :offset="3">
-          <a-avatar :src="src" :size="64"></a-avatar>
+          <a-avatar :src="form.avatar" :size="64"></a-avatar>
         </a-col>
         <a-col :span="9">
           <a-row>
             <a-col :span="9" :style="{ marginBottom: '10px' }">
-              用户名: {{ username }}
+              用户名: {{ form.username }}
             </a-col>
           </a-row>
           <a-row>
-            <a-col :span="24">个人简介: {{ desc }}</a-col>
+            <keep-alive>
+              <a-col :span="24">
+                个人简介:
+                <div :style="{ lineHeight: '40px' }">
+                  <div v-if="flag">
+                    <div
+                      v-if="
+                        form.description == null ||
+                          form.description.trim() == ''
+                      "
+                    >
+                      这个人太懒了，什么也没有留下
+                    </div>
+                    <div v-else>
+                      {{ form.description }}
+                    </div>
+                  </div>
+                  <a-input v-else type="text" v-model="form.description">{{
+                    form.description
+                  }}</a-input>
+                </div>
+              </a-col>
+            </keep-alive>
           </a-row>
         </a-col>
       </a-row>
@@ -33,23 +55,19 @@
         v-model="visible"
         @ok="handleOk"
         @cancel="handleCancel"
-        :bodyStyle="{height: '200px'}"
+        :bodyStyle="{ height: '200px' }"
         :width="400"
       >
         <a-row>
           <a-col :span="12" offset="6">
-              <a-upload
-          name="avatar"
-          listType="picture-card"
-          class="avatar-uploader"
-          :showUploadList="false"
-        >
-          <!-- <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
-          <div v-else> -->
-            <a-icon :type="'plus'" />
-            <div class="ant-upload-text">Upload</div>
-          <!-- </div> -->
-        </a-upload>
+            <a-upload
+              name="file"
+              :multiple="true"
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              @change="handleChange"
+            >
+              <a-button> <a-icon type="upload" /> Click to Upload </a-button>
+            </a-upload>
           </a-col>
         </a-row>
       </a-modal>
@@ -62,44 +80,47 @@
       >
         <a-form-item label="学院">
           <keep-alive>
-            <div v-if="flag">{{form.academy}}</div>
+            <div v-if="flag">{{ form.academy }}</div>
             <a-select v-else v-model="form.academy">
-              <a-select-option v-for="(academy, index) in academySource" :key="index" :value="academy">{{academy}}</a-select-option>
+              <a-select-option
+                v-for="(academy, index) in academySource"
+                :key="index"
+                :value="academy"
+                >{{ academy }}</a-select-option
+              >
             </a-select>
           </keep-alive>
-
         </a-form-item>
         <a-form-item label="性别">
-          <div v-if="flag">{{form.sex}}</div>
-          <a-radio-group v-else v-model="form.sex">
-<a-radio value="男">男</a-radio>
-<a-radio value="女">女</a-radio>
-
+          <div v-if="flag">{{ form.gender }}</div>
+          <a-radio-group v-else v-model="form.gender">
+            <a-radio value="男">男</a-radio>
+            <a-radio value="女">女</a-radio>
           </a-radio-group>
         </a-form-item>
         <a-form-item label="年纪">
           <keep-alive>
             <div v-if="flag">
-              {{form.age}}
+              {{ form.age }}
             </div>
             <a-input-number v-model="form.age" v-else></a-input-number>
           </keep-alive>
         </a-form-item>
         <a-form-item label="年级">
-           <keep-alive>
-              <div v-if="flag">{{form.grade}}</div>
+          <keep-alive>
+            <div v-if="flag">{{ form.grade }}</div>
 
-          <a-select v-else v-model="form.grade">
-            <a-select-option key="1" value="1">大一</a-select-option>
-            <a-select-option key="2" value="2">大二</a-select-option>
-            <a-select-option key="3" value="3">大三</a-select-option>
-            <a-select-option key="4" value="4">大四</a-select-option>
-            <a-select-option key="5" value="5">其他</a-select-option>
-          </a-select>
-           </keep-alive>
+            <a-select v-else v-model="form.grade">
+              <a-select-option key="1" value="大一">大一</a-select-option>
+              <a-select-option key="2" value="大二">大二</a-select-option>
+              <a-select-option key="3" value="大三">大三</a-select-option>
+              <a-select-option key="4" value="大四">大四</a-select-option>
+              <a-select-option key="5" value="其他">其他</a-select-option>
+            </a-select>
+          </keep-alive>
         </a-form-item>
         <a-form-item label="邮箱">
-          <div v-if="flag">{{form.email}}</div>
+          <div v-if="flag">{{ form.email }}</div>
           <a-input v-else type="email" v-model="form.email"></a-input>
         </a-form-item>
       </a-form-model>
@@ -137,9 +158,10 @@ const data = ["学院", "性别", "年龄", "年级", "邮箱"];
 //     {type: "邮箱", name:"201648748@qq.com"}
 // ]
 
-const academySource = ["电院", "农生", "材料", "生医工", "安泰", "人文"]
+const academySource = ["电院", "农生", "材料", "生医工", "安泰", "人文"];
 
 import Profile from "./common/Profile";
+import qs from 'qs';
 
 export default {
   name: "UserInfo",
@@ -150,41 +172,66 @@ export default {
     return {
       thisOpenKeys: ["sub1"], // 打开第三个子菜单
       thisSelectedKeys: ["1"],
-      src: "https://dummyimage.com/200x100/50B347/FFF&text=Mock.js",
-      username: "Edgar", // TODO ajax get the username
-      academy: "电院",
-      desc: "这个人太懒了，什么也没有留下",
       flag: true,
       data,
       academySource,
       form: {
-        academy: "电院",
-        sex: "男",
-        age: "20",
-        grade: "大二",
-        email: "201648748@qq.com",
+        username: "",
+        academy: "",
+        gender: "",
+        age: "",
+        grade: "",
+        email: "",
+        description: "",
+        avatar: "",
       },
       labelCol: { span: 4 },
       wrapperCol: { span: 8 },
       visible: false, // 修改头像的弹出框，
-      imageUrl: "https://dummyimage.com/200x100/50B347/FFF&text=Mock.js",
     };
   },
+  mounted() {
+    this.getData();
+  },
+
   methods: {
+    getData() {
+      return new Promise((resolve, reject) => {
+        this.$axios
+          .post("/api/user/info")
+          .then((res) => {
+            this.form = res.data;
+            resolve(res);
+            console.log(res.data);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      });
+    },
+
     uploadAvatar() {
       console.log("upload a new avatar");
-      this.visible = !this.visible;
+      this.visible = true;
     },
     modify() {
-      this.flag = !this.flag;
+      this.flag = false;
     },
     save() {
-      this.flag = !this.flag;
+      this.flag = true;
       console.log(this.form);
-      this.$message.success("修改成功", 1);
+      this.$axios.post("/api/user/updateUserInfo", qs.stringify(this.form)).then(res=>{
+        if(res.data.status===200){
+          this.$message.success(res.data.message)
+        }else{
+          this.$message.error(res.data.message)
+        }
+      })
     },
     cancel() {
-      this.flag = !this.flag;
+      this.getData().then(() => {
+        this.flag = true;
+      });
     },
 
     // 弹出框
@@ -195,6 +242,17 @@ export default {
     },
     handleCancel() {
       console.log("cancel");
+    },
+    handleChange(info) {
+      if (info.file.status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (info.file.status === "done") {
+        this.$message.success(`${info.file.name} file uploaded successfully`);
+        this.visible = false;
+      } else if (info.file.status === "error") {
+        this.$message.error(`${info.file.name} file upload failed.`);
+      }
     },
   },
 };
