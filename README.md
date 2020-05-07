@@ -22,3 +22,7 @@
 - `mockjs`  数据模拟
 - `axios`  数据请求
 - `antdv`  UI组件库
+
+
+### 后端处理
+使用Spring Boot 进行后台处理，项目为 [SpringBoot-BBS](https://github.com/Cyberist-Edgar/SpringBoot-BBS)
