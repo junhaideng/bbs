@@ -26,3 +26,6 @@
 
 ### 后端处理
 使用Spring Boot 进行后台处理，项目为 [SpringBoot-BBS](https://github.com/Cyberist-Edgar/SpringBoot-BBS)
+
+### demo
+<img src="demo.gif" alt="demo"/>
