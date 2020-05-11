@@ -17,9 +17,9 @@
         <a-form-item label="类型">
           <a-select placeholder="请选择相应的课程" v-model="form.type">
             <a-select-option
-              v-for="(value, key, index) in courseType"
+              v-for="(value, index) in courseType"
               :key="index"
-              :value="key"
+              :value="value"
             >
               {{ value }}
             </a-select-option>
@@ -41,11 +41,11 @@
 </template>
 
 <script>
-const courseType = {
-  physical: "物理实验",
-  chemical: "化学实验",
-  electronic: "电子技术实验",
-};
+const courseType = [
+ "物理实验",
+  "化学实验",
+"电子技术实验",
+];
 
 import qs from "qs";
 import Profile from "./common/Profile";

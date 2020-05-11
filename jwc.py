@@ -2,8 +2,9 @@ import requests
 import re
 import sqlite3
 import time
+import pymysql
 
-PATTERN = r"<item><title>(.*?)</title><link>(.*?)</link><pubDate>(.*?)</pubDate></item>"
+PATTERN = r"<item><title>(.*?)</title><link>(.*?)</link><pub_date>(.*?)</pub_date></item>"
 
 
 class JWC:
@@ -17,8 +18,8 @@ class JWC:
 
     def create_table(self):
         """创建表"""
-        sql = "create table if not exists jwcdb(id integer primary key , title vchar(100) not null , link vchar(100) " \
-              "not null , pubDate date not null ) "
+        sql = "create table if not exists jwc_notice( id  bigint auto_increment primary key,  title varchar(100) , link varchar(100) " \
+              "  , pub_date varchar(30)  ) "
         self.cursor.execute(sql)
 
     def get_html(self):
@@ -38,6 +39,7 @@ class JWC:
         html = self.get_html()
         pattern = re.compile(PATTERN)
         for item in re.findall(pattern, html)[::-1]:
+            print(item)
             self.insert_into_db(*item)
 
     @staticmethod
@@ -48,25 +50,26 @@ class JWC:
     def connect_to_db(self):
         """连接到数据库"""
         try:
-            con = sqlite3.connect(self.dbname, timeout=3)
+            con = pymysql.connect("localhost", "root", "Edgar", self.dbname)
         except Exception as e:
             print(e)
         else:
             self.con = con
             self.cursor = con.cursor()
 
-    def insert_into_db(self, title, link, pubDate):
+    def insert_into_db(self, title, link, pub_date):
         """把信息插入到数据库中"""
-        sql = "INSERT INTO jwcdb(title, link, pubDate) VALUES(?, ?, ?)"
-        self.cursor.execute(sql, (title, link, pubDate))
+        sql = "INSERT INTO jwc_notice(title, link, pub_date) VALUES(?, ?, ?)"
+        
+        self.cursor.execute(sql, (title, link, pub_date))
         self.con.commit()
 
     def read_from_db(self, num=8):
         """从数据库中读取数据"""
-        sql = "SELECT title, link, pubDate FROM jwcdb ORDER BY ID DESC LIMIT {}".format(num)
+        sql = "SELECT title, link, pub_date FROM jwc_notice ORDER BY ID DESC LIMIT {}".format(num)
         result = self.cursor.execute(sql)
         self.con.commit()
-        return result.fetchmany(num)
+        return self.cursor.fetchmany(num)
 
     def update(self):
         html = self.get_html()
@@ -86,7 +89,7 @@ class JWC:
 
 
 if __name__ == '__main__':
-    test = JWC()
-    # test.analyse()
+    test = JWC("bbs")
+    test.analyse()
     # print(test.read_from_db(10))
-    test.update()
+    # test.update()

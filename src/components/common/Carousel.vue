@@ -1,59 +1,50 @@
 <template>
   <div>
     <a-carousel autoplay>
-      <a-row>
-        <div>
+      <a-row v-for="(id, index) in id_list" :key="index">
+ <div>
           <img
             :style="{ margin: 'auto' }"
             height="200px"
-            src="../../assets/images/1.jpg"
+            :src="'/api/carousel/get/?id='+id"
             alt=""
           />
         </div>
       </a-row>
-      <a-row>
-        <div :style="{ textAlign: 'center' }">
-          <img
-            :style="{ margin: 'auto' }"
-            height="200px"
-            src="../../assets/images/2.jpg"
-            alt=""
-          />
-        </div>
-      </a-row>
-      <a-row>
-        <div>
-          <img
-            :style="{ margin: 'auto' }"
-            height="200px"
-            src="../../assets/images/3.png"
-            alt=""
-          />
-        </div>
-      </a-row>
-       <a-row>
-        <div>
-          <img
-            :style="{ margin: 'auto' }"
-            height="200px"
-            src="https://images.pexels.com/photos/235721/pexels-photo-235721.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-            alt=""
-          />
-        </div>
-      </a-row>
+
     </a-carousel>
   </div>
 </template>
 
 <script>
+import qs from "qs";
+
 export default {
   name: "Carousel",
+
+  data() {
+    return {
+      id_list: [],
+    };
+  },
+  mounted() {
+    this.$axios
+      .post("/api/carousel/get", qs.stringify({ num: 6 }))
+      .then((res) => {
+        this.id_list = res.data.map((value) => 
+          value.id
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
 };
 </script>
 
 <style scoped>
-  .ant-carousel >>> .slick-slide {
-    text-align: center;
-    overflow: hidden;
-  }
+.ant-carousel >>> .slick-slide {
+  text-align: center;
+  overflow: hidden;
+}
 </style>

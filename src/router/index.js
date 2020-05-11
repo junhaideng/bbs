@@ -14,10 +14,12 @@ import Message from "../components/user/Message"
 import MessageSettings from "../components/user/MessageSettings"
 import Out from "../components/user/common/Out"
 import PasswordChange from "../components/user/PasswordChange"
+import ArticleDetail from "../components/articles"
+import CourseDetail from "../components/course/CourseDetail"
 
 Vue.use(Router);
 
-const router =  new Router({
+const router = new Router({
   mode: 'history',
   routes: [{
       path: "/",
@@ -27,7 +29,7 @@ const router =  new Router({
       path: '/index',
       name: 'index',
       component: Home,
-      meta:{
+      meta: {
         title: "主页",
         loginRequired: false
       }
@@ -36,25 +38,43 @@ const router =  new Router({
       path: '/community',
       name: 'community',
       component: Community,
-      meta:{
+      meta: {
         title: "社区",
         loginRequired: false
+      }
+    },
+
+    {
+      path: "/community/article/detail/:id",
+      name: "article_detail",
+
+      component: ArticleDetail,
+      meta: {
+        title: ""
       }
     },
     {
       path: "/course",
       name: "course",
       component: Course,
-      meta:{
+      meta: {
         title: "课程",
         loginRequired: false
       }
     },
     {
+     path: "/course/detail/:id",
+     name: "课程详细信息",
+     component: CourseDetail,
+     meta: {
+      loginRequired: false
+    }
+    },
+    {
       path: '/signup',
       name: 'signup',
       component: SignUp,
-      meta:{
+      meta: {
         title: "登录",
         loginRequired: false
       }
@@ -63,11 +83,11 @@ const router =  new Router({
       path: '/user/profile/',
       name: 'profile',
       component: UserInfo,
-      meta:{
+      meta: {
         title: "个人资料",
         loginRequired: true
       }
-      // children:[
+      // children:[  // 使用children需要在父路由中使用 route-view
       //   {
       //     path: 'files',  // 不要加  / 否则被认为是根目录
       //     name: 'files',
@@ -84,7 +104,7 @@ const router =  new Router({
       path: '/user/profile/files',
       name: 'files',
       component: Files,
-      meta:{
+      meta: {
         title: "我的文件",
         loginRequired: true
       }
@@ -93,7 +113,7 @@ const router =  new Router({
       path: '/user/profile/log',
       name: 'log',
       component: LoginLog,
-      meta:{
+      meta: {
         title: "登录日志",
         loginRequired: true
       }
@@ -102,7 +122,7 @@ const router =  new Router({
       path: '/user/profile/upload',
       name: 'upload',
       component: FileUpload,
-      meta:{
+      meta: {
         title: "上传文件",
         loginRequired: true
       }
@@ -111,7 +131,7 @@ const router =  new Router({
       path: "/user/profile/post",
       name: "post",
       component: Post,
-      meta:{
+      meta: {
         title: "发帖",
         loginRequired: true
       }
@@ -120,7 +140,7 @@ const router =  new Router({
       path: "/user/profile/change-password",
       name: "change-password",
       component: PasswordChange,
-      meta:{
+      meta: {
         title: "修改密码",
         loginRequired: true
       }
@@ -129,7 +149,7 @@ const router =  new Router({
       path: "/user/profile/messages",
       name: "messages",
       component: Message,
-      meta:{
+      meta: {
         title: "信息通知",
         loginRequired: true
       }
@@ -138,7 +158,7 @@ const router =  new Router({
       path: "/user/profile/message-settings",
       name: "message-settings",
       component: MessageSettings,
-      meta:{
+      meta: {
         title: "消息设置",
         loginRequired: true
       }
@@ -147,7 +167,7 @@ const router =  new Router({
       path: "/user/profile/out",
       name: "out",
       component: Out,
-      meta:{
+      meta: {
         title: "注销账号",
         loginRequired: true
       }
@@ -156,21 +176,22 @@ const router =  new Router({
       path: "/user/profile/article",
       name: "article",
       component: Article,
-      meta:{
+      meta: {
         title: "我的帖子",
         loginRequired: true
       }
-    }
+    },
+
   ],
 
 })
 
 router.beforeEach((to, from, next) => {
   // to来自  from  去哪
-  if(to.meta.title) {
+  if (to.meta.title) {
     document.title = to.meta.title
   }
-  if(to.meta.loginRequired && !sessionStorage.getItem("isLogin")){
+  if (to.meta.loginRequired && !sessionStorage.getItem("isLogin")) {
     Vue.prototype.$message.error("请先进行登录", 2)
     sessionStorage.setItem("next", to.fullPath)
     next("/")

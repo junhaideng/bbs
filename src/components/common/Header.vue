@@ -186,9 +186,10 @@ export default {
     },
   },
   mounted() {
-    // this.getMessageCount();
     if(sessionStorage.getItem("isLogin")){
       this.isLogin = true
+    this.getMessageCount();
+
     }
   },
   components: {
@@ -226,7 +227,7 @@ this.$i18n.locale = lang
       this.visible = false;
       sessionStorage.clear();
       window.location.reload();
-    }
+    },
   },
 
 };

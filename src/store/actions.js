@@ -12,12 +12,8 @@ context.commit("setIsLogin", true)
     },
 
     getMessageCount(context) {
-        axios.post("/api/user/messageCount", {
-            "userId": 2
-        }).then(res => {
-            let messageCount = res.data.data.messageCount;
-
-            context.commit("setMessageCount", messageCount)
+        axios.post("/api/user/message/unread").then(res => {
+            context.commit("setMessageCount", res.data.unread)
 
         }).catch(err => {
             console.log(err)

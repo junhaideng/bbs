@@ -132,10 +132,12 @@ export default {
         } else {
           link.download = filename + "." + suffix;
         }
-        link.href = "/api/user/download?file_id="+element;
+        link.href = "/api/file/download?file_id="+element;
         link.click();
         link.remove();
-      });
+      }
+      );
+
     },
     onSearch(value) {
       this.data = [];

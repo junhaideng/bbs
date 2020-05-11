@@ -55,35 +55,59 @@ export default {
   },
 
   mounted() {
-    this.set();
+    this.set().then(()=>{}).catch((err)=>{
+      if(err.response.status===500){
+          this.$message.error("服务端异常");
+      }
+
+    });
   },
   methods: {
     onSubmit() {
-      this.$axios.post("/api/user/changesettings", this.form, {
-        headers: {
-        "Content-Type": "application/json;charset=utf-8"
+      this.$axios
+        .post("/api/user/changesettings", this.form, {
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+          },
+        })
+        .then((res) => {
+          if (res.data.status === 200) {
+            this.$message.success(res.data.message);
+          } else {
+            this.$message.error(res.data.message);
+          }
+        })
+        .catch((err) => {
+          if(err.response.status===500){
+          this.$message.error("服务端异常");
       }
-      }).then(res=>{
-        if(res.data.status===200){
-          this.$message.success(res.data.message)
-        }else{
-          this.$message.error(res.data.message)
-        }
-      })
+
+        });
     },
     onReset() {
-      this.set();
+      this.set().then(()=>{
       this.$message.info("重置成功", 1);
+
+      }).catch((err)=>{
+         if(err.response.status===500){
+          this.$message.error("服务端异常");
+      }
+
+      });
     },
 
     set() {
-      this.$axios
+     return new Promise((resolve, reject)=>{
+        this.$axios
         .post("/api/user/messageSettings")
         .then((res) => {
           this.form = res.data;
-        }).catch(err=>{
-          console.log(err)
+          resolve(res.data)
+        })
+        .catch((err) => {
+          reject(err)
         });
+     })
     },
   },
 };

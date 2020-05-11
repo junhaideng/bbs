@@ -55,10 +55,12 @@ export default {
       .post("/api/user/loginlog")
       .then(res => {
         this.data = res.data;
-        console.log(this.data);
       })
       .catch(err => {
-        console.log(err);
+          if(err.response.status===500){
+          this.$message.error("服务端异常");
+      }
+
       });
   }
 };

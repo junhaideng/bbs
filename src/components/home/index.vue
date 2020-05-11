@@ -5,8 +5,8 @@
     <Content>
       <template v-slot:content>
         <a-row>
-          <a-col :span="16" :offset="4">
-            <div class="global-search-wrapper" style="width: 400px">
+          <a-col :span="10" :offset="6">
+            <div class="global-search-wrapper" style="width: 100%">
               <a-auto-complete
                 class="global-search"
                 size="large"

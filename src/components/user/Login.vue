@@ -111,21 +111,25 @@ export default {
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           // 将value上传到服务端
-          this.login(values).then(res => {
-            if (res.data.status === 200) {
-
-              this.form.resetFields();
-              this.$emit("close", false);
-              this.setIsLogin(true);
-              sessionStorage.setItem("isLogin", true);
-              sessionStorage.setItem("username", values.username)
-              window.location.reload();
-              this.$message.success(res.data.message);
-            } else {
-
-              this.$message.error(res.data.message);
-            }
-          });
+          this.login(values)
+            .then((res) => {
+              if (res.data.status === 200) {
+                this.form.resetFields();
+                this.$emit("close", false);
+                this.setIsLogin(true);
+                sessionStorage.setItem("isLogin", true);
+                sessionStorage.setItem("username", values.username);
+                window.location.reload();
+                this.$message.success(res.data.message);
+              } else {
+                this.$message.error(res.data.message);
+              }
+            })
+            .catch((err) => {
+              if (err.response.status === 500) {
+                this.$message.error("服务端异常");
+              }
+            });
         }
       });
     },
@@ -138,8 +142,6 @@ export default {
     },
 
     ...mapActions(["login", "setIsLogin"]),
-    
-   
   },
 };
 </script>
