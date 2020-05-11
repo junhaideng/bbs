@@ -6,15 +6,16 @@
         <template v-slot:content>
           <a-back-top />
 
-          <a-row>
+          <a-row >
             <a-col :span="16">
               <a-list
                 item-layout="vertical"
                 size="large"
-                :pagination="pagination"
                 :data-source="dataSource"
                 :locale="{ emptyText: '暂无帖子' }"
                 :loading="article_loading"
+                :style="{minHeight: '600px'}"
+               :pagination="pagination" 
               >
                 <a-list-item
                   slot="renderItem"
@@ -55,6 +56,8 @@
                   </a-row>
                 </a-list-item>
               </a-list>
+              <a-row :style="{float: 'right'}">
+          </a-row>
             </a-col>
             <a-col :span="6" offset="2">
               <a-row>
@@ -121,6 +124,7 @@
               </a-list>
             </a-col>
           </a-row>
+          
         </template>
       </Content>
       <Footer />
@@ -146,6 +150,9 @@ export default {
       return value.split(" ")[0];
     },
     titleFormat(value) {
+      if(value.length<10){
+        return value
+      }
       return value.slice(0, 10) + "...";
     },
   },
@@ -160,6 +167,7 @@ export default {
       hotArticle: [],
       jwcNotice: [],
       page: 1,
+      maxPage: 0,
       article_loading: true,
       hot_article_loading: true,
       jwcNotice_loading: true,
@@ -168,10 +176,11 @@ export default {
   mounted() {
     this.set_article().then(() => {
       this.article_loading = false;
-    });
-    this.set_hot_article().then(() => {
+      this.set_hot_article().then(() => {
       this.hot_article_loading = false;
     });
+    });
+    
     this.set_jwcNotice().then(() => {
       this.jwcNotice_loading = false;
     });
@@ -183,6 +192,7 @@ export default {
           .get("/api/community/get_all")
           .then((res) => {
             this.dataSource = res.data;
+            this.maxPage = Math.ceil(res.data.length/10);
             resolve();
           })
           .catch((err) => {
@@ -220,11 +230,16 @@ export default {
       });
     },
     change() {
-      this.page = (this.page + 1) % 10; // 一共十页
+      this.page = (this.page + 1) % this.maxPage+1;
+
       this.set_hot_article();
     },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.ant-spin-nested-loading{
+  min-height: 600px;
+}
+</style>

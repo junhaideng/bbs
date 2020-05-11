@@ -3,7 +3,7 @@
     <template v-slot:content>
           <a-row>
               <a-col :span="22" :offset="1">
-                  <a-table :columns="columns" :dataSource="data" rowKey="create_time"></a-table>
+                  <a-table :columns="columns" :dataSource="data" rowKey="create_time" :locale="{emptyText: '暂无登录数据'}"></a-table>
               </a-col>
 
           </a-row>

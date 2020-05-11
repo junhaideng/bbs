@@ -9,6 +9,7 @@ const store = new Vuex.Store({
         messageCount: 0,
         isLogin: false,
         next: "",  // 下一个页面的跳转
+        avatar: "",  // 头像连接
     },
     mutations: {
         setMessageCount(state, messageCount) {
@@ -22,7 +23,13 @@ const store = new Vuex.Store({
 
         setNext(state, next){
             state.next = next;
+        },
+
+        setAvatar(state, avatar){
+            state.avatar = avatar;
         }
+
+
     },
     actions
 

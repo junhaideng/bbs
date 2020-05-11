@@ -15,12 +15,7 @@
               :dataSource="listData"
             >
               <a-list-item slot="renderItem" slot-scope="item" key="item.title">
-                <!-- <template slot="actions" v-for="(type, index) in actions">
-                  <span :key="type">
-                    <a-icon :type="type" style="margin-right: 8px" />
-                     {{item.data[index]}}
-                  </span>
-                </template> -->
+               
                 <template v-slot:actions>
                   <span>
                     <a-icon type="read" />
@@ -43,7 +38,7 @@
              
 
                 <a-list-item-meta :description="item.description">
-                  <a slot="title"
+                  <a slot="title" :href="'/community/article/detail/'+item.id" target="_blank"
                     ><b>{{ item.title }}</b></a
                   >
                 </a-list-item-meta>

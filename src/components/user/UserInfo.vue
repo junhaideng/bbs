@@ -9,7 +9,7 @@
       <a-divider></a-divider>
       <a-row align="top">
         <a-col :span="3" :offset="3">
-          <a-avatar :src="form.avatar" :size="64"></a-avatar>
+          <a-avatar src="/api/user/avatar/get" :size="64"></a-avatar>
         </a-col>
         <a-col :span="9">
           <a-row>
@@ -62,8 +62,7 @@
           <a-col :span="12" offset="6">
             <a-upload
               name="file"
-              :multiple="true"
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              action="/api/user/avatar/upload"
               @change="handleChange"
             >
               <a-button> <a-icon type="upload" /> Click to Upload </a-button>
@@ -245,13 +244,14 @@ export default {
     },
     handleChange(info) {
       if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
+        // console.log(info.file, info.fileList);
       }
       if (info.file.status === "done") {
-        this.$message.success(`${info.file.name} file uploaded successfully`);
+        window.location.reload();
+        this.$message.success("头像上传成功");
         this.visible = false;
       } else if (info.file.status === "error") {
-        this.$message.error(`${info.file.name} file upload failed.`);
+        this.$message.error(`头像上传失败`);
       }
     },
   },

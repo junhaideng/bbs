@@ -15,13 +15,23 @@
           ></a-input>
         </a-form-item>
         <a-form-item label="类型">
-          <a-select placeholder="请选择相应的课程" v-model="form.type">
-            <a-select-option
+          <a-select
+          show-search
+            placeholder="请选择相应的课程"
+            :value="form.type"
+              :default-active-first-option="false"
+            :not-found-content="null"
+            @search="handleSearch"
+            :show-arrow="false"
+            :filter-option="false"
+            @change="handleChange"
+          >
+<a-select-option
               v-for="(value, index) in courseType"
               :key="index"
-              :value="value"
+              :value="value.course_name"
             >
-              {{ value }}
+              {{ value.course_name }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -41,12 +51,6 @@
 </template>
 
 <script>
-const courseType = [
- "物理实验",
-  "化学实验",
-"电子技术实验",
-];
-
 import qs from "qs";
 import Profile from "./common/Profile";
 export default {
@@ -65,14 +69,17 @@ export default {
         type: undefined,
         content: "",
       },
-      courseType,
+      courseType: [],
     };
+  },
+  mounted() {
+    // this.getCourse();
   },
   methods: {
     handleSubmit() {
       if (this.form.title.trim() === "") {
         this.$message.error("标题不能为空");
-      } else if (this.form.type === undefined) {
+      } else if (this.form.type === undefined || this.form.type==="") {
         this.$message.error("帖子类型不能为空");
       } else if (this.form.content.trim() === "") {
         this.$message.error("内容不能为空");
@@ -89,6 +96,35 @@ export default {
           });
       }
     },
+    getCourse() {
+      return new Promise((resolve, reject) => {
+        this.$axios
+          .get("/api/course/get_all_course")
+          .then((res) => {
+            this.courseType = res.data;
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err);
+            reject();
+          });
+      });
+    },
+    handleSearch(value) {
+      if(value.trim()!==""){
+        this.$axios
+        .post("/api/course/get_by_value", qs.stringify({ value: value }))
+        .then((res) => {
+          this.courseType = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      }
+    },
+    handleChange(value){
+      this.form.type = value;
+    }
   },
 };
 </script>

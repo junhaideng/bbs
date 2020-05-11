@@ -7,8 +7,8 @@ Vue.use(Vuex)
 
 
 const actions = {
-    setIsLogin(context){
-context.commit("setIsLogin", true)
+    setIsLogin(context) {
+        context.commit("setIsLogin", true)
     },
 
     getMessageCount(context) {
@@ -23,7 +23,7 @@ context.commit("setIsLogin", true)
     // 用户的登录
     login(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("/api/user/login", 
+            axios.post("/api/user/login",
                 qs.stringify(data)
             ).then(res => {
                 resolve(res);
@@ -33,7 +33,6 @@ context.commit("setIsLogin", true)
             })
         })
     },
-
 
 }
 

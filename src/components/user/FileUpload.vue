@@ -118,7 +118,7 @@ export default {
           form.append("description", this.form.description)
           form.append("type", this.form.type)
 
-          this.$axios.post("/api/user/uploadfile",form,{
+          this.$axios.post("/api/file/uploadfile",form,{
               headers: {
                 'Content-Type': 'multipart/form-data'
               }

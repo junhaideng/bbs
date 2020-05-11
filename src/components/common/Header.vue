@@ -47,7 +47,7 @@
                   :title="'你有' + messageCount + '未读信息'"
                   dot
                   ><a-avatar
-                    src="https://dummyimage.com/200x100/50B347/FFF&text=Mock.js"
+                    src="/api/user/avatar/get"
                   /> </a-badge
                 ><a-icon type="down" />
               </a>
@@ -228,6 +228,17 @@ this.$i18n.locale = lang
       sessionStorage.clear();
       window.location.reload();
     },
+    getAvatar(){
+      return new Promise((resolve, reject)=>{
+        this.$axios.get("/api/get").then(res=>{
+          this.src = res.data.src
+          resolve();
+        }).catch(err=>{
+          console.log(err);
+          reject(err);
+        })
+      })
+    }
   },
 
 };

@@ -12,19 +12,19 @@
         </a-row>
         <a-row>
           <a-col :span="24">
-            <h3 :style="{ marginTop: '10px' }">{{ data.title }}</h3>
+            <h3 :style="{ marginTop: '20px' }">{{ data.title }}</h3>
           </a-col>
         </a-row>
 
         <a-row>
-          <a-col :span="24">
+          <a-col :span="24" :style="{margin: '10px'}">
             {{ data.content }}
           </a-col>
         </a-row>
        </a-skeleton>
 
         <a-row :style="{ marginTop: '10px' }">
-          <a-button @click="show_edit(id)">
+          <a-button @click="show_edit(id)" >
             <a-icon type="edit"></a-icon>写回答
           </a-button>
         </a-row>
@@ -38,15 +38,18 @@
               >
               </a-textarea>
             </a-form-item>
-            <a-form-item>
+            <a-form-item :style="{float: 'right'}">
               <a-button
-                type="submit"
+                type="primary"
                 @click="submit"
                 :style="{ marginRight: '10px' }"
                 >提交</a-button
               >
-              <a-button type="submit" @click="cancel">取消</a-button>
+              <a-button type="danger" @click="cancel">取消</a-button>
             </a-form-item>
+            <a-row :style="{zIndex: -1, marginBottom: 0, height: '40px'}">
+              <a-col :span="24"></a-col>
+            </a-row>
           </a-form>
         </div>
       </template>
