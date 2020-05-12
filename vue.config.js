@@ -12,9 +12,8 @@ module.exports = {
     },
     filenameHashing:true,
     // assetsDir: 'static',
-    // publicPath: process.env.NODE_ENV === 'production'
-    // ? './bbs-vue/'
-    // : './',
+    // publicPath:'./',
+    productionSourceMap: false,
 
     
 };
