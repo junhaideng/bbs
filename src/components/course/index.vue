@@ -93,8 +93,7 @@ export default {
         title: "课程名称",
         dataIndex: "courseName",
         width: "30%",
-        customRender: (text, row, index) => {
-          console.log(text, row, index);
+        customRender: (text, row) => {
           return <a href={"/course/detail/"+row.id}>{text}</a>;
         },
       },
@@ -134,14 +133,17 @@ export default {
       } else {
         this.selectedMainTags = [];
       }
+      this.getCourse();
+
     },
     handleSchoolTagChange(tag, checked) {
+
       if (checked) {
         this.selectedSchoolTags = [tag];
-        this.getCourseBySchool();
       } else {
         this.selectedSchoolTags = [];
       }
+        this.getCourse();
     },
     getAllSchool() {
       return new Promise((resolve, reject) => {
@@ -159,15 +161,16 @@ export default {
           });
       });
     },
-    getCourseBySchool() {
+    getCourse() {
       return new Promise((resolve, reject) => {
         this.spinning = true;
-        let school = this.selectedSchoolTags;
-        if (school.length > 0) {
+        console.log(this.selectedMainTags[0], this.selectedSchoolTags[0])
+        let school = this.selectedSchoolTags.length>0?this.selectedSchoolTags[0]:null;
+        let type = this.selectedMainTags.length>0?this.selectedMainTags[0]:null;
           this.$axios
             .post(
-              "/api/course/get_course_by_school",
-              qs.stringify({ school: school[0] })
+              "/api/course/get_course",
+              qs.stringify({ school: school, type: type })
             )
             .then((res) => {
               this.data = res.data;
@@ -177,7 +180,6 @@ export default {
             .catch((err) => {
               reject(err);
             });
-        }
       });
     },
   },

@@ -119,10 +119,10 @@
                   ]"
                   placeholder="Select your gender"
                 >
-                  <a-select-option value="male">
+                  <a-select-option value="男">
                     男
                   </a-select-option>
-                  <a-select-option value="female">
+                  <a-select-option value="女">
                     女
                   </a-select-option>
                   <a-select-option value="secret">
@@ -225,6 +225,9 @@ export default {
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "register" });
   },
+  mounted(){
+this.set_academy()
+  },
   methods: {
     handleSubmit(e) {
       e.preventDefault();
@@ -274,6 +277,17 @@ export default {
       }
       callback();
     },
+    set_academy(){
+      return new Promise((resolve, reject)=>{
+        this.$axios.get("/api/course/get_all_school").then(res=>{
+          this.academies = res.data.map(value=> value.school)
+          resolve()
+        }).catch(err=>{
+          console.log(err)
+          reject()
+        })
+      })
+    }
   },
 };
 </script>

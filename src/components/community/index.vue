@@ -37,10 +37,9 @@
                     </a-col>
                   </a-row>
                   <a-row>
-                    <a-icon
-                      type="user"
-                      style="margin-right: 8px; margin-top: 10px"
-                    />
+                    <a-avatar
+                    :src="'/api/user/avatar/get_by_username?username='+item.username" 
+                      style="margin-right: 8px; height:1rem; width:1rem"/>
                     {{ item.username }}
 
 
@@ -147,9 +146,15 @@ export default {
   },
   filters: {
     dateFormat(value) {
+      if(value==null){
+        return null
+      }
       return value.split(" ")[0];
     },
     titleFormat(value) {
+      if(value == null){
+        return null
+      }
       if(value.length<10){
         return value
       }

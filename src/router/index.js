@@ -1,21 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Community from "../components/community/index";
-import Course from "../components/course/index";
-import Home from "../components/home/index";
-import SignUp from "../components/user/SignUp";
-import UserInfo from '../components/user/UserInfo'
-import Files from "../components/user/Files";
-import LoginLog from "../components/user/LoginLog"
-import FileUpload from "../components/user/FileUpload"
-import Article from "../components/user/Article"
-import Post from "../components/user/Post"
-import Message from "../components/user/Message"
-import MessageSettings from "../components/user/MessageSettings"
-import Out from "../components/user/common/Out"
-import PasswordChange from "../components/user/PasswordChange"
-import ArticleDetail from "../components/articles"
-import CourseDetail from "../components/course/CourseDetail"
 
 Vue.use(Router);
 
@@ -28,7 +12,7 @@ const router = new Router({
     {
       path: '/index',
       name: 'index',
-      component: Home,
+      component: () => import("../components/home/index"),
       meta: {
         title: "主页",
         loginRequired: false
@@ -37,7 +21,7 @@ const router = new Router({
     {
       path: '/community',
       name: 'community',
-      component: Community,
+      component: ()=>import("../components/community/index"),
       meta: {
         title: "社区",
         loginRequired: false
@@ -48,7 +32,7 @@ const router = new Router({
       path: "/community/article/detail/:id",
       name: "article_detail",
 
-      component: ArticleDetail,
+      component: ()=>import("../components/articles"),
       meta: {
         title: ""
       }
@@ -56,7 +40,7 @@ const router = new Router({
     {
       path: "/course",
       name: "course",
-      component: Course,
+      component: ()=>import("../components/course/index"),
       meta: {
         title: "课程",
         loginRequired: false
@@ -65,7 +49,7 @@ const router = new Router({
     {
      path: "/course/detail/:id",
      name: "课程详细信息",
-     component: CourseDetail,
+     component: ()=>import("../components/course/CourseDetail"),
      meta: {
       loginRequired: false
     }
@@ -73,7 +57,7 @@ const router = new Router({
     {
       path: '/signup',
       name: 'signup',
-      component: SignUp,
+      component: ()=>import("../components/user/SignUp"),
       meta: {
         title: "登录",
         loginRequired: false
@@ -82,7 +66,7 @@ const router = new Router({
     {
       path: '/user/profile/',
       name: 'profile',
-      component: UserInfo,
+      component: ()=>import('../components/user/UserInfo'),
       meta: {
         title: "个人资料",
         loginRequired: true
@@ -103,7 +87,7 @@ const router = new Router({
     {
       path: '/user/profile/files',
       name: 'files',
-      component: Files,
+      component: ()=>import( "../components/user/Files"),
       meta: {
         title: "我的文件",
         loginRequired: true
@@ -112,7 +96,7 @@ const router = new Router({
     {
       path: '/user/profile/log',
       name: 'log',
-      component: LoginLog,
+      component: ()=>import( "../components/user/LoginLog"),
       meta: {
         title: "登录日志",
         loginRequired: true
@@ -121,7 +105,7 @@ const router = new Router({
     {
       path: '/user/profile/upload',
       name: 'upload',
-      component: FileUpload,
+      component: ()=>import("../components/user/FileUpload"),
       meta: {
         title: "上传文件",
         loginRequired: true
@@ -130,7 +114,7 @@ const router = new Router({
     {
       path: "/user/profile/post",
       name: "post",
-      component: Post,
+      component: ()=>import("../components/user/Post"),
       meta: {
         title: "发帖",
         loginRequired: true
@@ -139,7 +123,7 @@ const router = new Router({
     {
       path: "/user/profile/change-password",
       name: "change-password",
-      component: PasswordChange,
+      component: ()=>import("../components/user/PasswordChange"),
       meta: {
         title: "修改密码",
         loginRequired: true
@@ -148,7 +132,7 @@ const router = new Router({
     {
       path: "/user/profile/messages",
       name: "messages",
-      component: Message,
+      component: ()=>import("../components/user/Message"),
       meta: {
         title: "信息通知",
         loginRequired: true
@@ -157,7 +141,7 @@ const router = new Router({
     {
       path: "/user/profile/message-settings",
       name: "message-settings",
-      component: MessageSettings,
+      component: ()=>import("../components/user/MessageSettings"),
       meta: {
         title: "消息设置",
         loginRequired: true
@@ -166,7 +150,7 @@ const router = new Router({
     {
       path: "/user/profile/out",
       name: "out",
-      component: Out,
+      component: ()=>import("../components/user/common/Out"),
       meta: {
         title: "注销账号",
         loginRequired: true
@@ -175,7 +159,7 @@ const router = new Router({
     {
       path: "/user/profile/article",
       name: "article",
-      component: Article,
+      component: ()=>import("../components/user/Article"),
       meta: {
         title: "我的帖子",
         loginRequired: true
