@@ -5,6 +5,7 @@ Vue.use(Router);
 
 const router = new Router({
   mode: 'history',
+  base: "/vue-bbs",
   routes: [{
       path: "/",
       redirect: '/index'
