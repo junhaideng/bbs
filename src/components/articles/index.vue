@@ -24,7 +24,7 @@
         </a-skeleton>
 
         <a-row :style="{ marginTop: '10px' }">
-          <a-button @click="show_edit(id)">
+          <a-button @click="show_edit">
             <a-icon type="edit"></a-icon>写回答
           </a-button>
         </a-row>
@@ -59,79 +59,106 @@
         <a-row>
           <a-col :span="20">
             <!-- TODO: 这个list不分页，但是需要进行后端动态请求 https://antdv.com/components/list-cn/ -->
-             <a-list 
-          item-layout="vertical"
-          size="large"
-          :pagination="pagination"
-          :data-source="listData"
-          :locale="{ emptyText: '暂无回答' }"
-          :loading="loading"
-        >
-          <div slot="header">
-            <b>{{ listData.length }}</b> 个回答
-          </div>
-
-          <a-list-item
-            slot="renderItem"
-            key="item.title"
-            slot-scope="item, index"
-          >
-            <a-list-item-meta :description="item.description">
-              <a slot="title" :href="item.href">{{ item.username }}</a>
-              <a-avatar slot="avatar" :src="'/api/user/avatar/get_by_username?username='+item.username" />
-            </a-list-item-meta>
-            {{ item.reply }}
-            <a-row :style="{margin: '10px 0 10px 0'}">
-              <a-col :span="4">
-                <a href="javascript:;">
-                  <span @click="star(item.id)">
-                    <a-icon type="star" style="margin-right: 8px" />{{
-                      item.star
-                    }}
-                  </span>
-                </a>
-              </a-col>
-              <a-col :span="4">
-                <a-tooltip>
-                  <template v-slot:title>
-                    点我可展开或者折叠评论
-                  </template>
-                  <a href="javascript:;">
-                  <span @click="show(index)">
-                  <a-icon type="message" style="margin-right: 8px" />{{
-                    item.comments
-                  }}
-                </span></a>
-                </a-tooltip>
-
-              </a-col>
-            </a-row>
-            <div v-show="show_comments[index]">
-              <a-list
-              :pagination="pagination_2"
-              :locale="{emptyText:'快来写评论吧'}"
-              >
-
-              </a-list>
-
-            <a-row>
-              <a-col :span="16">
-                <a-input
-            placeholder="写下你的评论..."
+            <a-list
+              item-layout="vertical"
+              size="large"
+              :pagination="pagination"
+              :data-source="listData"
+              :locale="{ emptyText: '暂无回答' }"
+              :loading="loading"
             >
-            </a-input> 
-              </a-col>
-              <a-col :span="6" offset="1">
-                <a-button type="primary">评论</a-button>
-              </a-col>
-            </a-row>
+              <div slot="header">
+                <b>{{ listData.length }}</b> 个回答
+              </div>
 
-            </div>
-          </a-list-item>
-        </a-list>
+              <a-list-item
+                slot="renderItem"
+                key="item.title"
+                slot-scope="item, index"
+              >
+                <a-list-item-meta>
+                  <a slot="title">{{ item.article.username }}</a>
+                  <a-avatar
+                    slot="avatar"
+                    :src="
+                      '/api/user/avatar/get_by_username?username=' +
+                        item.username
+                    "
+                  />
+                </a-list-item-meta>
+                {{ item.article.reply }}
+                <a-row :style="{ margin: '10px 0 10px 0' }">
+                    <a href="javascript:;" style="margin-right:10px">
+                      <span @click="star(item.article.id)">
+                        <a-icon type="star" style="margin-right: 8px" />{{
+                          item.article.star
+                        }}
+                      </span>
+                    </a>
+                    <a-tooltip>
+                      <template v-slot:title>
+                        点我可展开或者折叠评论
+                      </template>
+                      <a href="javascript:;">
+                        <span @click="show(index)">
+                          <a-icon type="message" style="margin-right: 8px" />{{
+                            item.article.comments
+                          }}
+                        </span></a
+                      >
+                    </a-tooltip>
+                </a-row>
+                <div v-show="show_comments[index]">
+                  <a-row>
+                    <a-col :span="20" :offset="2">
+                      <a-list
+                        item-layout="vertical"
+                        size="small"
+                        :pagination="pagination_2"
+                        :data-source="item.data"
+                        :locale="{ emptyText: '快来评论吧' }"
+                        :split="false"
+                      >
+                        <a-list-item
+                          slot="renderItem"
+                          key="comment.id"
+                          slot-scope="comment"
+                        >
+                          <a-list-item-meta :description="comment.comment">
+                            <div
+                              slot="title"
+                              :style="{ fontSize: '14px' }"
+                              >{{ comment.username }}</div
+                            >
+                            <a-avatar
+                              slot="avatar"
+                              size="small"
+                              :src="
+                                '/api/user/avatar/get_by_username?username=' +
+                                  comment.username
+                              "
+                            />
+                          </a-list-item-meta>
+                        </a-list-item>
+                      </a-list>
+                    </a-col>
+                  </a-row>
+
+                  <a-row  :style="{marginTop: '10px'}">
+                    <a-col :span="16" offset="2">
+                      <a-input v-model="comment_content" placeholder="写下你的评论..."> </a-input>
+                    </a-col>
+                    <a-col :span="4" offset="1">
+                      <a-button type="primary" @click="comment(item.article.id, $event)"
+                        >评论</a-button
+                      >
+                    </a-col>
+                  </a-row>
+                </div>
+              </a-list-item>
+            </a-list>
           </a-col>
         </a-row>
-       
       </div>
     </Content>
     <Footer />
@@ -151,6 +178,16 @@ export default {
     Content,
     Footer,
   },
+  filters: {
+    type(value) {
+      // console.log("-----------begin---------------")
+      // console.log(value)
+      // console.log("-----------end---------------")
+
+      return value;
+    },
+  },
+
   data() {
     return {
       selectKeys: [],
@@ -162,16 +199,17 @@ export default {
       pagination: {
         pageSize: 10,
       },
-      pagination_2:{
-        size: 'small',
-        pageSize: 8,
-        onChange: (value)=>{console.log(value)},
+      pagination_2: {
+        size: "small",
+        pageSize: 4,
+       
       },
       listData: [],
       loading: true,
       infoLoading: true,
       show_comments: [],
       comments_data: [],
+      comment_content: "",
     };
   },
   mounted() {
@@ -217,10 +255,9 @@ export default {
           });
       });
     },
-    show_edit(id) {
+    show_edit() {
       if (sessionStorage.getItem("isLogin")) {
         this.visible = true;
-        console.log(id);
       } else {
         this.$message.error("请先进行登录");
         this.$children[0].login();
@@ -233,7 +270,11 @@ export default {
         this.$axios
           .post(
             "/api/community/reply",
-            qs.stringify({ id: this.id, reply: this.content })
+            qs.stringify({
+              id: this.id,
+              reply: this.content,
+              url: window.location.pathname,
+            })
           )
           .then((res) => {
             if (res.data.status === 200) {
@@ -261,8 +302,45 @@ export default {
     },
 
     show(index) {
-      this.$set(this.show_comments, index, !this.show_comments[index])  // 需要使用set方式才能生效，直接赋值无法生效
-      console.log(this.show_comments);
+      this.$set(this.show_comments, index, !this.show_comments[index]); // 需要使用set方式才能生效，直接赋值无法生效
+    },
+    comment(id, $event) {
+      // 输入框中的内容
+      let content =
+        $event.target.parentElement.parentElement.firstElementChild
+          .firstElementChild.value;
+
+          if(content.trim()===""){
+        this.$message.info("内容为空");
+return
+          }
+
+      this.$axios
+        .post(
+          "/api/reply/comment",
+          qs.stringify({
+            comment: content,
+            reply_id: id,
+            url: window.location.pathname,
+          })
+        )
+        .then((res) => {
+          if (res.data.status === 200) {
+            this.$message.success(res.data.message);
+            $event.target.parentElement.parentElement.firstElementChild
+          .firstElementChild;
+        
+            this.set_reply()
+             for(let item of document.getElementsByTagName("input")){
+              item.value=""
+             }
+          } else {
+            this.$message.error(res.data.message);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

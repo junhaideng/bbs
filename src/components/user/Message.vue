@@ -46,8 +46,10 @@
 
                         </a-col>
                       <a-col :span="20" :style="{marginLeft: '10px'}">
-                        <a-badge v-if="!item.read" dot :offset="[10,0]"> {{ item.title }}</a-badge>
+                       <a :href="item.url" target="_blank">
+                          <a-badge v-if="!item.read" dot :offset="[10,0]"> {{ item.title }}</a-badge>
                       <div v-else>{{ item.title }}</div>
+                       </a>
                       </a-col>
                       </a-row>
                     </a-col>
@@ -57,18 +59,30 @@
                       >{{ item.time |dateFormat }}</a-col
                     >
                     <a-col :span="1">
-                      <a-icon 
+                      <a-tooltip>
+                        <template v-slot:title>
+                          标记为已读
+                        </template>
+                        <a-icon 
                       type="read"
                       @click="read_message(item.id)"
                       >
                       </a-icon>
+                      </a-tooltip>
                     </a-col>
                     <a-col :span="1"
-                      ><a-icon
+                      >
+                      <a-tooltip>
+                        <template v-slot:title>
+                          删除
+                        </template>
+                        <a-icon
                         type="delete"
                         :style="{ color: 'red' }"
                         @click="delete_message(item.id)"
-                    /></a-col>
+                    />
+                      </a-tooltip>
+                      </a-col>
                   </a-row>
                 </template>
               </a-list-item-meta>
@@ -196,7 +210,6 @@ export default {
     },
     read_message(id){
       let message = this.listData.filter(value => {if(value.id==id) return true})[0]
-      console.log(message)
       if(message.read){
         this.$message.info("该信息已为已读状态，不能修改")
         return;
