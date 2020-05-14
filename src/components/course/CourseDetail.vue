@@ -61,12 +61,12 @@
         >
           <a-list-item slot="renderItem" slot-scope="item">
             <a-list-item-meta :description="item.comment">
-              <a slot="title" href="https://www.antdv.com/">{{
+              <div slot="title">{{
                 item.username
-              }}</a>
+              }}</div>
               <a-avatar
                 slot="avatar"
-                src="https://dummyimage.com/200x100/50B347/FFF&text=Mock.js"
+                :src="'/api/user/avatar/get_by_username?username='+item.username"
               />
             </a-list-item-meta>
           </a-list-item>
