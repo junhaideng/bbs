@@ -109,7 +109,7 @@
             <div v-show="show_comments[index]">
               <a-list
               :pagination="pagination_2"
-              :locale="{emptyText:'暂无'}"
+              :locale="{emptyText:'快来写评论吧'}"
               >
 
               </a-list>
