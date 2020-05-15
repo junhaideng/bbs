@@ -30,6 +30,10 @@
                 </p>
               </a-upload-dragger>
             </a-form-model-item>
+            <a-form-model-item label="上传进度" v-show="show">
+              <a-progress :percent="percent" status="active"></a-progress>
+            </a-form-model-item>
+
 
             <a-form-model-item label="课程类型" prop="type">
               <a-select
@@ -79,7 +83,7 @@
 <script>
 import Profile from "./common/Profile";
 
-import qs from 'qs';
+import qs from "qs";
 
 export default {
   data() {
@@ -89,7 +93,8 @@ export default {
       options: [],
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
-      other: "",
+      show: false,
+      percent: 0,
       form: {
         type: undefined,
         description: "",
@@ -110,8 +115,7 @@ export default {
   components: {
     Profile,
   },
-  mounted() {
-  },
+  mounted() {},
 
   methods: {
     beforeUpload(file) {
@@ -126,16 +130,28 @@ export default {
           form.append("file", this.form.file[0].originFileObj);
           form.append("description", this.form.description);
           form.append("type", this.form.type);
+          this.show = true
 
           this.$axios
             .post("/api/file/uploadfile", form, {
               headers: {
                 "Content-Type": "multipart/form-data",
               },
+              onUploadProgress: (progressEvent) => {
+                if(progressEvent.lengthComputable){
+                  var complete =
+                  (( (progressEvent.loaded / progressEvent.total) * 100) | 0);
+                  this.percent = complete
+                  if(complete >=100){
+                    this.show = false
+                    this.percent = 0; // 重新置0
+                  }
+                }
+              },
             })
             .then((res) => {
               if (res.data.status === 200) {
-                window.location.reload();
+                this.resetForm();
                 this.$message.success(res.data.message);
               } else {
                 this.$message.error(res.data.message);
@@ -176,8 +192,6 @@ export default {
     handleOptionChange(value) {
       this.form.type = value;
     },
-
-  
   },
 };
 </script>
