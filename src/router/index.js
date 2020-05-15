@@ -28,6 +28,15 @@ const router = new Router({
       }
     },
     {
+      path: "/feedback",
+      name: "feedback",
+      component: ()=>import("../components/feedback/index"),
+      meta:{
+        title: "反馈",
+        loginRequired: true
+      }
+    },
+    {
       path: "/download",
       name: "download",
       component: () => import("../components/download/index"),
