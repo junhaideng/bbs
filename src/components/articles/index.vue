@@ -82,31 +82,31 @@
                     slot="avatar"
                     :src="
                       '/api/user/avatar/get_by_username?username=' +
-                        item.username
+                        item.article.username
                     "
                   />
                 </a-list-item-meta>
                 {{ item.article.reply }}
                 <a-row :style="{ margin: '10px 0 10px 0' }">
-                    <a href="javascript:;" style="margin-right:10px">
-                      <span @click="star(item.article.id)">
-                        <a-icon type="star" style="margin-right: 8px" />{{
-                          item.article.star
+                  <a href="javascript:;" style="margin-right:10px">
+                    <span @click="star(item.article.id)">
+                      <a-icon type="star" style="margin-right: 8px" />{{
+                        item.article.star
+                      }}
+                    </span>
+                  </a>
+                  <a-tooltip>
+                    <template v-slot:title>
+                      点我可展开或者折叠评论
+                    </template>
+                    <a href="javascript:;">
+                      <span @click="show(index)">
+                        <a-icon type="message" style="margin-right: 8px" />{{
+                          item.article.comments
                         }}
-                      </span>
-                    </a>
-                    <a-tooltip>
-                      <template v-slot:title>
-                        点我可展开或者折叠评论
-                      </template>
-                      <a href="javascript:;">
-                        <span @click="show(index)">
-                          <a-icon type="message" style="margin-right: 8px" />{{
-                            item.article.comments
-                          }}
-                        </span></a
-                      >
-                    </a-tooltip>
+                      </span></a
+                    >
+                  </a-tooltip>
                 </a-row>
                 <div v-show="show_comments[index]">
                   <a-row>
@@ -125,11 +125,9 @@
                           slot-scope="comment"
                         >
                           <a-list-item-meta :description="comment.comment">
-                            <div
-                              slot="title"
-                              :style="{ fontSize: '14px' }"
-                              >{{ comment.username }}</div
-                            >
+                            <div slot="title" :style="{ fontSize: '14px' }">
+                              {{ comment.username }}
+                            </div>
                             <a-avatar
                               slot="avatar"
                               size="small"
@@ -144,12 +142,18 @@
                     </a-col>
                   </a-row>
 
-                  <a-row  :style="{marginTop: '10px'}">
+                  <a-row :style="{ marginTop: '10px' }">
                     <a-col :span="16" offset="2">
-                      <a-input v-model="comment_content" placeholder="写下你的评论..."> </a-input>
+                      <a-input
+                        v-model="comment_content"
+                        placeholder="写下你的评论..."
+                      >
+                      </a-input>
                     </a-col>
                     <a-col :span="4" offset="1">
-                      <a-button type="primary" @click="comment(item.article.id, $event)"
+                      <a-button
+                        type="primary"
+                        @click="comment(item.article.id, $event)"
                         >评论</a-button
                       >
                     </a-col>
@@ -202,7 +206,6 @@ export default {
       pagination_2: {
         size: "small",
         pageSize: 4,
-       
       },
       listData: [],
       loading: true,
@@ -282,6 +285,7 @@ export default {
               this.$message.success(res.data.message);
               this.visible = false;
             } else {
+              this.visible = false;
               this.$message.error(res.data.message);
             }
           })
@@ -310,10 +314,10 @@ export default {
         $event.target.parentElement.parentElement.firstElementChild
           .firstElementChild.value;
 
-          if(content.trim()===""){
+      if (content.trim() === "") {
         this.$message.info("内容为空");
-return
-          }
+        return;
+      }
 
       this.$axios
         .post(
@@ -328,12 +332,12 @@ return
           if (res.data.status === 200) {
             this.$message.success(res.data.message);
             $event.target.parentElement.parentElement.firstElementChild
-          .firstElementChild;
-        
-            this.set_reply()
-             for(let item of document.getElementsByTagName("input")){
-              item.value=""
-             }
+              .firstElementChild;
+
+            this.set_reply();
+            for (let item of document.getElementsByTagName("input")) {
+              item.value = "";
+            }
           } else {
             this.$message.error(res.data.message);
           }

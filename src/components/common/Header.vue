@@ -29,6 +29,12 @@
                   社区</a
                 >
               </a-menu-item>
+              <a-menu-item key="4">
+                <a href="/download">
+                  <a-icon type="download" />
+                  下载</a
+                >
+              </a-menu-item>
             </a-menu>
           </a-col>
         </a-col>

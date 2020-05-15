@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header />
+    <Header :select-keys="selectKeys"/>
     <a-layout>
       <a-layout-content
         :style="{
@@ -194,6 +194,7 @@ export default {
   components: { Footer, Header },
   data() {
     return {
+      selectKeys: [],
       confirmDirty: false,
       autoCompleteResult: [],
       formItemLayout: {

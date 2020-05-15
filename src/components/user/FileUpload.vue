@@ -31,20 +31,24 @@
               </a-upload-dragger>
             </a-form-model-item>
 
-
-            <a-form-model-item label="实验类型" prop="type">
-              <a-select v-model="form.type" placeholder="请选择实验类型">
-                <a-select-option value="physical">
-                  物理实验
-                </a-select-option>
-                <a-select-option value="chemical">
-                  化学实验
-                </a-select-option>
-                <a-select-option value="elec">
-                  电子技术实验
-                </a-select-option>
-                <a-select-option value="electronic">
-                  基电实验
+            <a-form-model-item label="课程类型" prop="type">
+              <a-select
+                show-search
+                placeholder="请选择相应的课程"
+                :value="form.type"
+                :default-active-first-option="false"
+                :not-found-content="null"
+                @search="handleSearch"
+                :show-arrow="false"
+                :filter-option="false"
+                @change="handleOptionChange"
+              >
+                <a-select-option
+                  v-for="(value, index) in options"
+                  :key="index"
+                  :value="value.course_name"
+                >
+                  {{ value.course_name }}
                 </a-select-option>
               </a-select>
             </a-form-model-item>
@@ -54,7 +58,7 @@
                 v-model="form.description"
                 type="textarea"
                 placeholder="请输入文件描述"
-                :style="{minHeight: '110px'}"
+                :style="{ minHeight: '110px' }"
               />
             </a-form-model-item>
             <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
@@ -75,11 +79,14 @@
 <script>
 import Profile from "./common/Profile";
 
+import qs from 'qs';
+
 export default {
   data() {
     return {
       thisOpenKeys: ["sub3"], // 打开第三个子菜单
       thisSelectedKeys: ["6"],
+      options: [],
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
       other: "",
@@ -103,6 +110,8 @@ export default {
   components: {
     Profile,
   },
+  mounted() {
+  },
 
   methods: {
     beforeUpload(file) {
@@ -114,23 +123,24 @@ export default {
         if (valid) {
           let form = new FormData();
 
-          form.append("file", this.form.file[0].originFileObj)
-          form.append("description", this.form.description)
-          form.append("type", this.form.type)
+          form.append("file", this.form.file[0].originFileObj);
+          form.append("description", this.form.description);
+          form.append("type", this.form.type);
 
-          this.$axios.post("/api/file/uploadfile",form,{
+          this.$axios
+            .post("/api/file/uploadfile", form, {
               headers: {
-                'Content-Type': 'multipart/form-data'
+                "Content-Type": "multipart/form-data",
+              },
+            })
+            .then((res) => {
+              if (res.data.status === 200) {
+                window.location.reload();
+                this.$message.success(res.data.message);
+              } else {
+                this.$message.error(res.data.message);
               }
-            }
-          ).then((res) => {
-            if (res.data.status === 200) {
-              window.location.reload();
-              this.$message.success(res.data.message);
-            } else {
-              this.$message.error(res.data.message);
-            }
-          });
+            });
         } else {
           console.log("error submit!!");
           return false;
@@ -151,6 +161,23 @@ export default {
     resetForm() {
       this.$refs.ruleForm.resetFields();
     },
+    handleSearch(value) {
+      if (value.trim() !== "") {
+        this.$axios
+          .post("/api/course/get_by_value", qs.stringify({ value: value }))
+          .then((res) => {
+            this.options = res.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
+    handleOptionChange(value) {
+      this.form.type = value;
+    },
+
+  
   },
 };
 </script>

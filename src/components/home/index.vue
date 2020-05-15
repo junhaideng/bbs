@@ -29,6 +29,20 @@
                       {{ data.title }}
                     </a-select-option>
                   </a-select-opt-group>
+
+                  <a-select-opt-group v-if="files_show">
+                    <template v-slot:label
+                      ><div :style="{ fontSize: '1.17em' }">文件</div></template
+                    >
+                    <a-select-option
+                      v-for="data in dataSource.files"
+                      :key="data.file_name"
+                      :value="data.file_name.trim()"
+                    >
+                      {{ data.file_name }}
+                    </a-select-option>
+                  </a-select-opt-group>
+
                   <a-select-opt-group v-if="files_show">
                     <template v-slot:label
                       ><div :style="{ fontSize: '1.17em' }">文件</div></template
@@ -56,6 +70,14 @@
                 </a-input>
               </a-auto-complete>
             </div>
+          </a-col>
+        </a-row>
+        <a-row>
+          <a-col :span="10" :offset="6">
+
+          <a href="">教务处</a>
+          <a href="">图书馆</a>
+          <a href="">教学信息服务网</a>
           </a-col>
         </a-row>
       </template>
@@ -95,7 +117,7 @@ export default {
     onSelect(value) {
       let router = this.$router.resolve({
         path: "/search",
-        query: { q: value.trim() },
+        query: { q: value.trim(), type: "article" },
       });
       window.open(router.href);
     },
@@ -103,7 +125,7 @@ export default {
     handleSearch(value) {
       this.$axios
         .post("/api/search", qs.stringify({ q: value.trim() }))
-        .then(res => {
+        .then((res) => {
           this.dataSource = res.data;
           if (this.dataSource.articles.length === 0) {
             this.articles_show = false;
@@ -115,17 +137,23 @@ export default {
           } else {
             this.files_show = true;
           }
-           if (value.trim()) {
-        this.showFlag = true;
-      } else {
-        this.showFlag = false;
-      }
-        }).catch(err=>{console.log(err)});
-
+          if (value.trim()) {
+            this.showFlag = true;
+          } else {
+            this.showFlag = false;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     handleClick() {
-      if (this.value.trim()) {
-        console.log("进行搜索", this.value);
+      if (this.value.trim() !== "") {
+        let router = this.$router.resolve({
+          path: "/search",
+          query: { q: this.value.trim(), type: "article" },
+        });
+        window.open(router.href);
       } else {
         this.$message.warning("请输入搜索内容", 1);
       }
