@@ -1,4 +1,3 @@
-// TODO: 对文件进行获取存入到form.file,
 <template>
   <Profile :selectedKeys="thisSelectedKeys" :open-keys="thisOpenKeys">
     <template v-slot:content>
