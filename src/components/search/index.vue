@@ -54,7 +54,10 @@ export default {
     Content,
   },
   mounted() {
-    
+       if( Object.prototype.hasOwnProperty.call(this.$route.query, "q")){
+    this.q = this.$route.query.q
+        this.set_data();
+    }
   },
   data() {
     return {
