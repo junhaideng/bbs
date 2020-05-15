@@ -31,7 +31,7 @@
               </a-upload-dragger>
             </a-form-model-item>
             <a-form-model-item label="上传进度" v-show="show">
-              <a-progress :percent="percent" status="active"></a-progress>
+              <a-progress :percent="percent" :status="status"></a-progress>
             </a-form-model-item>
 
 
@@ -95,6 +95,7 @@ export default {
       wrapperCol: { span: 14 },
       show: false,
       percent: 0,
+      status: "active",
       form: {
         type: undefined,
         description: "",
@@ -131,6 +132,7 @@ export default {
           form.append("description", this.form.description);
           form.append("type", this.form.type);
           this.show = true
+          this.status = "active"
 
           this.$axios
             .post("/api/file/uploadfile", form, {
@@ -156,8 +158,12 @@ export default {
               } else {
                 this.$message.error(res.data.message);
               }
+            }).catch(err=>{
+              console.log(err)
+              this.status = "exception"
             });
         } else {
+
           console.log("error submit!!");
           return false;
         }
