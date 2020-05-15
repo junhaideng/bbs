@@ -23,7 +23,7 @@
             :pagination="pagination"
             :data-source="listData"
             :loading="loading"
-            :locale="{ emptyText: '暂无搜索数据' }"
+            :locale="{ emptyText: '暂无文件' }"
           >
             <a-list-item slot="renderItem" key="item.id" slot-scope="item">
               <div slot="actions">
