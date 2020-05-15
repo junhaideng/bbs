@@ -9,7 +9,7 @@
           :rules="rules"
           :label-col="labelCol"
           :wrapper-col="wrapperCol"
-          :style="{marginTop: '30px'}"
+          :style="{ marginTop: '30px' }"
         >
           <a-form-model-item prop="title">
             <span slot="label">
@@ -40,14 +40,14 @@
             />
           </a-form-model-item>
           <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
-          <a-row  :style="{float: 'right'}">
-                  <a-button type="primary" :loading="loading" @click="onSubmit">
-              提交
-            </a-button>
-            <a-button style="margin-left: 10px;" @click="resetForm">
-              重置
-            </a-button>
-          </a-row>
+            <a-row :style="{ float: 'right' }">
+              <a-button type="primary" :loading="loading" @click="onSubmit">
+                提交
+              </a-button>
+              <a-button style="margin-left: 10px;" @click="resetForm">
+                重置
+              </a-button>
+            </a-row>
           </a-form-model-item>
         </a-form-model>
       </template>
@@ -89,6 +89,10 @@ export default {
           },
         ],
         email: [
+             {
+                type: 'email',
+                message: '请输入合法的邮箱地址',
+              },
           {
             required: true,
             message: "请填写您的邮箱!",
@@ -109,12 +113,12 @@ export default {
     onSubmit() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-            this.loading = true
+          this.loading = true;
           this.$axios
             .post("/api/feedback/submit", qs.stringify(this.form))
             .then((res) => {
               if (res.data.status === 200) {
-                  this.loading = false
+                this.loading = false;
                 this.$refs.ruleForm.resetFields();
                 this.$message.success(res.data.message);
               } else {
@@ -122,7 +126,7 @@ export default {
               }
             })
             .catch((err) => {
-                this.loading = false
+              this.loading = false;
               console.log(err);
             });
         } else {
