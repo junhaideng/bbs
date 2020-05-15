@@ -51,13 +51,13 @@
         <a-row :style="{marginTop: '10px'}">
           <a-col :span="10" :offset="6" :style="{textAlign: 'center'}">
   <span :style="{marginRight: '10px'}">
-          <a href="">教务处</a>
+          <a href="http://www.jwc.sjtu.edu.cn/web/sjtu/198001.htm" target="_blank">教务处</a>
   </span>
   <span :style="{marginRight: '10px'}">
-          <a href="">图书馆</a>
+          <a href="http://www.lib.sjtu.edu.cn/f/main/index.shtml" target="_blank">图书馆</a>
   </span>
     <span :style="{marginRight: '10px'}">
-          <a href="">教学信息服务网</a>
+          <a href="https://i.sjtu.edu.cn/xtgl/login_slogin.html?language=zh_CN&_t=1589518812236" target="_blank">教学信息服务网</a>
   </span>
           </a-col>
         </a-row>
