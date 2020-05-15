@@ -5,7 +5,7 @@
  <div>
           <img
             :style="{ margin: 'auto' }"
-            height="200px"
+            height="400px"
             :src="'/api/carousel/get/?id='+id"
             alt=""
           />

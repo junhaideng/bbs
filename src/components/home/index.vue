@@ -1,9 +1,11 @@
 <template>
   <a-layout>
     <Header :select-keys="selectKeys" />
-    <Carousel />
-    <Content>
+    <Content :height="'600px'" >
+
       <template v-slot:content>
+    <Carousel :style="{marginBottom: '40px'}" />
+
         <a-row>
           <a-col :span="10" :offset="6">
             <div class="global-search-wrapper" style="width: 100%">
@@ -22,37 +24,11 @@
                       ><div :style="{ fontSize: '1.17em' }">文章</div></template
                     >
                     <a-select-option
-                      v-for="data in dataSource.articles"
+                      v-for="data in dataSource"
                       :key="data.title"
                       :value="data.title.trim()"
                     >
                       {{ data.title }}
-                    </a-select-option>
-                  </a-select-opt-group>
-
-                  <a-select-opt-group v-if="files_show">
-                    <template v-slot:label
-                      ><div :style="{ fontSize: '1.17em' }">文件</div></template
-                    >
-                    <a-select-option
-                      v-for="data in dataSource.files"
-                      :key="data.file_name"
-                      :value="data.file_name.trim()"
-                    >
-                      {{ data.file_name }}
-                    </a-select-option>
-                  </a-select-opt-group>
-
-                  <a-select-opt-group v-if="files_show">
-                    <template v-slot:label
-                      ><div :style="{ fontSize: '1.17em' }">文件</div></template
-                    >
-                    <a-select-option
-                      v-for="data in dataSource.files"
-                      :key="data.file_name"
-                      :value="data.file_name.trim()"
-                    >
-                      {{ data.file_name }}
                     </a-select-option>
                   </a-select-opt-group>
                 </template>
@@ -72,12 +48,17 @@
             </div>
           </a-col>
         </a-row>
-        <a-row>
-          <a-col :span="10" :offset="6">
-
+        <a-row :style="{marginTop: '10px'}">
+          <a-col :span="10" :offset="6" :style="{textAlign: 'center'}">
+  <span :style="{marginRight: '10px'}">
           <a href="">教务处</a>
+  </span>
+  <span :style="{marginRight: '10px'}">
           <a href="">图书馆</a>
+  </span>
+    <span :style="{marginRight: '10px'}">
           <a href="">教学信息服务网</a>
+  </span>
           </a-col>
         </a-row>
       </template>
@@ -109,7 +90,6 @@ export default {
       dataSource: [],
       value: "",
       showFlag: false,
-      files_show: false,
       articles_show: false,
     };
   },
@@ -124,19 +104,16 @@ export default {
 
     handleSearch(value) {
       this.$axios
-        .post("/api/search", qs.stringify({ q: value.trim() }))
+        .post("/api/search", qs.stringify({ q: value.trim(), type: "article" }))
         .then((res) => {
           this.dataSource = res.data;
-          if (this.dataSource.articles.length === 0) {
+          console.log(this.dataSource)
+          if (this.dataSource.length === 0) {
             this.articles_show = false;
           } else {
             this.articles_show = true;
           }
-          if (this.dataSource.files.length === 0) {
-            this.files_show = false;
-          } else {
-            this.files_show = true;
-          }
+       
           if (value.trim()) {
             this.showFlag = true;
           } else {
