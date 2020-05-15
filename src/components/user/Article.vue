@@ -13,32 +13,41 @@
               :pagination="pagination"
               size="large"
               :dataSource="listData"
+              :loading="loading"
             >
               <a-list-item slot="renderItem" slot-scope="item" key="item.title">
-               
                 <template v-slot:actions>
                   <span>
                     <a-icon type="read" />
                     {{ item.read }}
                   </span>
-                   <span>
+                  <span>
                     <a-icon type="star-o" />
                     {{ item.star }}
                   </span>
- <span>
+                  <span>
                     <a-icon type="message" />
                     {{ item.comments }}
                   </span>
-                   <span>
+                  <span>
                     <a-icon type="history" />
                     {{ item.createTime }}
                   </span>
+                  <span>
+                    <a-tooltip>
+                      <template v-slot:title>
+                        删除
+                      </template>
+                      <a-icon type="delete" @click="delete_article(item.id)" />
+                    </a-tooltip>
+                  </span>
                 </template>
-               
-             
 
                 <a-list-item-meta :description="item.description">
-                  <a slot="title" :href="'/community/article/detail/'+item.id" target="_blank"
+                  <a
+                    slot="title"
+                    :href="'/community/article/detail/' + item.id"
+                    target="_blank"
                     ><b>{{ item.title }}</b></a
                   >
                 </a-list-item-meta>
@@ -54,18 +63,12 @@
 
 <script>
 import Profile from "./common/Profile";
+import qs from "qs";
 
 export default {
   name: "Article",
   mounted() {
-    this.$axios
-      .post("/api/user/article")
-      .then((res) => {
-        this.listData = res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.set();
   },
   components: {
     Profile,
@@ -75,7 +78,7 @@ export default {
       thisOpenKeys: ["sub2"], // 打开第三个子菜单
       thisSelectedKeys: ["3"],
       listData: [],
-      actions: ["star-o", "like-o", "message", "history"],
+      loading: false,
       pagination: {
         onChange: (page) => {
           console.log(page);
@@ -83,6 +86,35 @@ export default {
         pageSize: 8,
       },
     };
+  },
+  methods: {
+    set() {
+      this.loading = true;
+      this.$axios
+        .post("/api/user/article")
+        .then((res) => {
+          this.listData = res.data;
+          this.loading = false;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    delete_article(id) {
+      this.$axios
+        .post("/api/user/article/delete", qs.stringify({ id: id }))
+        .then((res) => {
+          if (res.data.status == 200) {
+            this.$message.success(res.data.message);
+            this.set();
+          } else {
+            this.$message.error(res.data.message);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
 </script>
