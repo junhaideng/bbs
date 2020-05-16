@@ -27,12 +27,26 @@
           >
             <a-list-item slot="renderItem" key="item.id" slot-scope="item">
               <div slot="actions">
-                <a-row :style="{height: '20px'}">
-                  <a-icon type="user" :style="{marginRight: '8px'}"></a-icon><span :style="{marginRight: '8px'}">{{ item.username }}</span>
-                  <a-icon type="history"  :style="{marginRight: '8px'}"></a-icon><span :style="{marginRight: '8px'}">{{ item.download_times }}</span>
-                    <a-icon type="download"  :style="{marginRight: '8px'}"></a-icon><span :style="{marginRight: '8px'}"><a @click="download(item.id)">点击下载</a></span>
-                  </a-row
-                >
+                <a-row :style="{ height: '20px' }">
+                  <a-icon type="user" :style="{ marginRight: '8px' }"></a-icon
+                  ><span :style="{ marginRight: '8px' }">{{
+                    item.username
+                  }}</span>
+                  <a-icon
+                    type="history"
+                    :style="{ marginRight: '8px' }"
+                  ></a-icon
+                  ><span :style="{ marginRight: '8px' }">{{
+                    item.download_times
+                  }}</span>
+                  <a-icon
+                    type="download"
+                    :style="{ marginRight: '8px' }"
+                  ></a-icon
+                  ><span :style="{ marginRight: '8px' }"
+                    ><a @click="download(item.id)">点击下载</a></span
+                  >
+                </a-row>
               </div>
               <a-list-item-meta :description="item.description">
                 <a slot="title"
@@ -62,11 +76,11 @@ export default {
     Content,
   },
   mounted() {
-      if(! Object.prototype.hasOwnProperty.call(this.$route.query, "q")){
-    this.get_all();
-    }else{
-        this.q = this.$route.query.q
-        this.set_data();
+    if (!Object.prototype.hasOwnProperty.call(this.$route.query, "q")) {
+      this.get_all();
+    } else {
+      this.q = this.$route.query.q;
+      this.set_data();
     }
   },
   data() {
@@ -88,7 +102,7 @@ export default {
       return new Promise((resolve, reject) => {
         (this.loading = true),
           this.$axios
-            .post("/api/search", qs.stringify({ q: this.q , type: 'file'}))
+            .post("/api/search", qs.stringify({ q: this.q, type: "file" }))
             .then((res) => {
               this.listData = res.data;
               this.loading = false;
