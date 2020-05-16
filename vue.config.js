@@ -12,7 +12,7 @@ module.exports = {
     },
     filenameHashing:true,
     // assetsDir: 'static',
-    publicPath:'./bbs',
+    // publicPath:'./bbs',
     productionSourceMap: false,
 
     
