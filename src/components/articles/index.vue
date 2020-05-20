@@ -89,9 +89,9 @@
                 {{ item.article.reply }}
                 <a-row :style="{ margin: '10px 0 10px 0' }">
                   <a href="javascript:;" style="margin-right:10px">
-                    <span @click="star(item.article.id)">
-                      <a-icon type="star" style="margin-right: 8px" />{{
-                        item.article.star
+                    <span @click="like(item.article.id)">
+                      <a-icon type="like-o" style="margin-right: 8px" />{{
+                        item.article.like
                       }}
                     </span>
                   </a>
@@ -301,12 +301,22 @@ export default {
       this.visible = false;
     },
 
-    star(id) {
-      console.log("star", id);
+    like(id) {
+      this.$axios.post("/api/reply/star",qs.stringify({id: id, type:"like"})).then(res=>{
+        if(res.data.status == 200){
+          this.$message.success(res.data.message)
+          this.set_reply()
+        }else{
+          this.$message.error(res.data.message)
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
     },
 
     show(index) {
       this.$set(this.show_comments, index, !this.show_comments[index]); // 需要使用set方式才能生效，直接赋值无法生效
+      console.log(this.show_comments)
     },
     comment(id, index) {
       // 输入框中的内容
