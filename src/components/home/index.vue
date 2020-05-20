@@ -1,7 +1,7 @@
 <template>
   <a-layout>
     <Header :select-keys="selectKeys" />
-    <Content :height="'600px'">
+    <Content>
       <template v-slot:content>
         <Carousel :style="{ marginBottom: '40px' }" />
 
@@ -48,7 +48,7 @@
           </a-col>
         </a-row>
         <a-row :style="{ marginTop: '10px' }">
-          <a-col :span="10" :offset="6" :style="{ textAlign: 'center' }">
+          <a-col :span="10" :offset="7" :style="{ textAlign: 'center' }">
 
             <span :style="{ marginRight: '10px' }" v-for="item in link" :key="item.name">
               <a
