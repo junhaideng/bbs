@@ -113,7 +113,7 @@ export default {
       checked1: false,
       checked2: false,
       checked3: false,
-      mainTags: ["必修", "选修", "实验", "其他"],
+      mainTags: ["必修", "选修"],  //, "实验", "其他"
       schoolTags: [],
       selectedMainTags: [],
       selectedSchoolTags: [],
