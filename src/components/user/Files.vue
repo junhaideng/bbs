@@ -143,7 +143,7 @@ export default {
       this.data = [];
 
       this.dataSource.forEach((element) => {
-        if (element.filename.indexOf(value) !== -1) {
+        if (element.fileName.indexOf(value) !== -1) {
           console.log(element);
           this.data.push(element);
         }
