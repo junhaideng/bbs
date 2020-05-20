@@ -302,7 +302,7 @@ export default {
     },
 
     like(id) {
-      this.$axios.post("/api/reply/star",qs.stringify({id: id, type:"like"})).then(res=>{
+      this.$axios.post("/api/reply/star",qs.stringify({id: id, type:"like", url: window.location.pathname})).then(res=>{
         if(res.data.status == 200){
           this.$message.success(res.data.message)
           this.set_reply()
