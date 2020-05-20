@@ -145,7 +145,7 @@
                   <a-row :style="{ marginTop: '10px' }">
                     <a-col :span="16" offset="2">
                       <a-input
-                        v-model="comment_content"
+                        v-model="comment_content[index]"
                         placeholder="写下你的评论..."
                       >
                       </a-input>
@@ -153,7 +153,7 @@
                     <a-col :span="4" offset="1">
                       <a-button
                         type="primary"
-                        @click="comment(item.article.id, $event)"
+                        @click="comment(item.article.id, index)"
                         >评论</a-button
                       >
                     </a-col>
@@ -212,7 +212,7 @@ export default {
       infoLoading: true,
       show_comments: [],
       comments_data: [],
-      comment_content: "",
+      comment_content: [],
     };
   },
   mounted() {
@@ -308,12 +308,10 @@ export default {
     show(index) {
       this.$set(this.show_comments, index, !this.show_comments[index]); // 需要使用set方式才能生效，直接赋值无法生效
     },
-    comment(id, $event) {
+    comment(id, index) {
       // 输入框中的内容
-      let content =
-        $event.target.parentElement.parentElement.firstElementChild
-          .firstElementChild.value;
-
+      let content =this.comment_content[index]
+        
       if (content.trim() === "") {
         this.$message.info("内容为空");
         return;
@@ -330,14 +328,9 @@ export default {
         )
         .then((res) => {
           if (res.data.status === 200) {
+            this.comment_content[index]= ""
             this.$message.success(res.data.message);
-            $event.target.parentElement.parentElement.firstElementChild
-              .firstElementChild;
-
             this.set_reply();
-            for (let item of document.getElementsByTagName("input")) {
-              item.value = "";
-            }
           } else {
             this.$message.error(res.data.message);
           }
