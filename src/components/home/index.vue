@@ -1,13 +1,12 @@
 <template>
   <a-layout>
     <Header :select-keys="selectKeys" />
-    <Content :height="'600px'" >
-
+    <Content :height="'600px'">
       <template v-slot:content>
-    <Carousel :style="{marginBottom: '40px'}" />
+        <Carousel :style="{ marginBottom: '40px' }" />
 
         <a-row>
-          <a-col :span="10" :offset="6">
+          <a-col :span="10" :offset="7">
             <div class="global-search-wrapper" style="width: 100%">
               <a-auto-complete
                 class="global-search"
@@ -48,17 +47,17 @@
             </div>
           </a-col>
         </a-row>
-        <a-row :style="{marginTop: '10px'}">
-          <a-col :span="10" :offset="6" :style="{textAlign: 'center'}">
-  <span :style="{marginRight: '10px'}">
-          <a href="http://www.jwc.sjtu.edu.cn/web/sjtu/198001.htm" target="_blank">教务处</a>
-  </span>
-  <span :style="{marginRight: '10px'}">
-          <a href="http://www.lib.sjtu.edu.cn/f/main/index.shtml" target="_blank">图书馆</a>
-  </span>
-    <span :style="{marginRight: '10px'}">
-          <a href="https://i.sjtu.edu.cn/xtgl/login_slogin.html?language=zh_CN&_t=1589518812236" target="_blank">教学信息服务网</a>
-  </span>
+        <a-row :style="{ marginTop: '10px' }">
+          <a-col :span="10" :offset="6" :style="{ textAlign: 'center' }">
+
+            <span :style="{ marginRight: '10px' }" v-for="item in link" :key="item.name">
+              <a
+                :href="item.link"
+                target="_blank"
+                >{{item.name}}</a
+              >
+            </span>
+          
           </a-col>
         </a-row>
       </template>
@@ -72,9 +71,24 @@
 import Header from "../common/Header";
 import Footer from "../common/Footer";
 import Content from "../common/Content";
-// import search from "../api/search";
 import qs from "qs";
 import Carousel from "../common/Carousel";
+
+const link = [
+  {
+    name: "教务处",
+    link: "http://www.jwc.sjtu.edu.cn/web/sjtu/198001.htm",
+  },
+  {
+    name: "图书馆",
+    link: "http://www.lib.sjtu.edu.cn/f/main/index.shtml",
+  },
+  {
+    name: "教学信息服务网",
+    link:
+      "https://i.sjtu.edu.cn/xtgl/login_slogin.html?language=zh_CN&_t=1589518812236",
+  }
+];
 
 export default {
   name: "Home",
@@ -91,6 +105,7 @@ export default {
       value: "",
       showFlag: false,
       articles_show: false,
+      link: link,
     };
   },
   methods: {
@@ -107,13 +122,13 @@ export default {
         .post("/api/search", qs.stringify({ q: value.trim(), type: "article" }))
         .then((res) => {
           this.dataSource = res.data;
-          console.log(this.dataSource)
+          console.log(this.dataSource);
           if (this.dataSource.length === 0) {
             this.articles_show = false;
           } else {
             this.articles_show = true;
           }
-       
+
           if (value.trim()) {
             this.showFlag = true;
           } else {
@@ -140,32 +155,4 @@ export default {
 </script>
 
 <style scoped>
-/* For demo */
-.ant-carousel >>> .slick-slide {
-  text-align: center;
-
-  background: #364d79;
-  overflow: hidden;
-}
-
-.ant-carousel >>> .custom-slick-arrow {
-  width: 25px;
-  height: 25px;
-  font-size: 25px;
-  color: #fff;
-  background-color: rgba(31, 45, 61, 0.11);
-  opacity: 0.3;
-}
-
-.ant-carousel >>> .custom-slick-arrow:before {
-  display: none;
-}
-
-.ant-carousel >>> .custom-slick-arrow:hover {
-  opacity: 0.5;
-}
-
-.ant-carousel >>> .slick-slide h3 {
-  color: #fff;
-}
 </style>
