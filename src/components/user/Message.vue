@@ -12,10 +12,8 @@
             size="large"
             :dataSource="listData"
             itemLayout="vertical"
-            :locale="{emptyText: '您暂时没有信息'}"
-
+            :locale="{ emptyText: '您暂时没有信息' }"
           >
-
             <template v-slot:header>
               <a-row>
                 <a-col :span="18"> 未读信息: {{ messageCount }} </a-col>
@@ -27,7 +25,10 @@
                       ></a-col
                     >
                     <a-col :span="12"
-                      ><a href="javascript:;" @click="clear" :style="{marginLeft: '1rem'}"
+                      ><a
+                        href="javascript:;"
+                        @click="clear"
+                        :style="{ marginLeft: '1rem' }"
                         >清空所有信息</a
                       ></a-col
                     >
@@ -42,47 +43,47 @@
                     <a-col :span="19">
                       <a-row>
                         <a-col :span="2">
-                        <a-tag>{{item.type}}</a-tag>
-
+                          <a-tag>{{ item.type }}</a-tag>
                         </a-col>
-                      <a-col :span="20" :style="{marginLeft: '10px'}">
-                       <a :href="item.url" target="_blank">
-                          <a-badge v-if="!item.read" dot :offset="[10,0]"> {{ item.title }}</a-badge>
-                      <div v-else>{{ item.title }}</div>
-                       </a>
-                      </a-col>
+                        <a-col :span="20" :style="{ marginLeft: '10px' }">
+                          <a
+                            :href="item.url"
+                            target="_blank"
+                            @click="read_message(item.id, 0)"
+                          >
+                            <a-badge v-if="!item.read" dot :offset="[10, 0]">
+                              {{ item.title }}</a-badge
+                            >
+                            <div v-else>{{ item.title }}</div>
+                          </a>
+                        </a-col>
                       </a-row>
                     </a-col>
                     <a-col
                       :span="3"
                       :style="{ right: '0px', fontSize: '14px', color: '#ccc' }"
-                      >{{ item.time |dateFormat }}</a-col
+                      >{{ item.time | dateFormat }}</a-col
                     >
                     <a-col :span="1">
                       <a-tooltip>
                         <template v-slot:title>
                           标记为已读
                         </template>
-                        <a-icon 
-                      type="read"
-                      @click="read_message(item.id)"
-                      >
-                      </a-icon>
+                        <a-icon type="read" @click="read_message(item.id, 1)">
+                        </a-icon>
                       </a-tooltip>
                     </a-col>
-                    <a-col :span="1"
-                      >
+                    <a-col :span="1">
                       <a-tooltip>
                         <template v-slot:title>
                           删除
                         </template>
                         <a-icon
-                        type="delete"
-                        :style="{ color: 'red' }"
-                        @click="delete_message(item.id)"
-                    />
+                          type="delete"
+                          @click="delete_message(item.id)"
+                        />
                       </a-tooltip>
-                      </a-col>
+                    </a-col>
                   </a-row>
                 </template>
               </a-list-item-meta>
@@ -111,9 +112,9 @@ export default {
     Profile,
   },
   filters: {
-    dateFormat(value){
-  return value.split(" ")[0]
-}
+    dateFormat(value) {
+      return value.split(" ")[0];
+    },
   },
   data() {
     return {
@@ -132,7 +133,7 @@ export default {
 
   methods: {
     init() {
-            this.getMessageCount();
+      this.getMessageCount();
       this.$axios
         .post("/api/user/message")
         .then((res) => {
@@ -164,31 +165,29 @@ export default {
     clear() {
       this.$confirm({
         title: "确定要删除所有的信息？",
-        okText:"确定",
+        okText: "确定",
         okType: "danger",
         cancelText: "取消",
         centered: true,
-        onOk: ()=>{
+        onOk: () => {
           this.$axios
-        .post("/api/user/message/clear_all")
-        .then((res) => {
-          if (res.data.status === 200) {
-            this.$message.success("全部清除完成");
-            this.init();
-          } else {
-            this.$message.error("清除失败");
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-          if (err.response.status === 500) {
-            this.$message.error("服务端异常");
-          }
-        });
-        }
-
-
-      })
+            .post("/api/user/message/clear_all")
+            .then((res) => {
+              if (res.data.status === 200) {
+                this.$message.success("全部清除完成");
+                this.init();
+              } else {
+                this.$message.error("清除失败");
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+              if (err.response.status === 500) {
+                this.$message.error("服务端异常");
+              }
+            });
+        },
+      });
     },
     delete_message(id) {
       this.$axios
@@ -206,15 +205,20 @@ export default {
             this.$message.error("服务端异常");
           }
         });
-
     },
-    read_message(id){
-      let message = this.listData.filter(value => {if(value.id==id) return true})[0]
-      if(message.read){
-        this.$message.info("该信息已为已读状态，不能修改")
+    read_message(id, type) {
+      if (type === 0) {
+        this.$axios.post("/api/user/message/read", qs.stringify({ id: id })).then(()=>{this.init()});
         return;
       }
-this.$axios
+      let message = this.listData.filter((value) => {
+        if (value.id == id) return true;
+      })[0];
+      if (message.read) {
+        this.$message.info("该信息已为已读状态，不能修改");
+        return;
+      }
+      this.$axios
         .post("/api/user/message/read", qs.stringify({ id: id }))
         .then((res) => {
           if (res.data.status === 200) {
@@ -230,7 +234,7 @@ this.$axios
           }
         });
     },
-    ...mapActions(["getMessageCount"])
+    ...mapActions(["getMessageCount"]),
   },
   computed: {
     ...mapState(["messageCount"]),
@@ -238,6 +242,4 @@ this.$axios
 };
 </script>
 
-<style>
-
-</style>
+<style></style>
