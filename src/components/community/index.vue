@@ -24,7 +24,8 @@
                 >
                   <template slot="actions"> </template>
 
-                  <a-list-item-meta>
+                  <a-list-item-meta
+                  :description="item.content | format(100)">
                     <a
                       slot="title"
                       :href="'/community/article/detail/' + item.id"
@@ -32,17 +33,10 @@
                     >
                   </a-list-item-meta>
                   <a-row>
-                    <a-col :span="24">
-                      {{ item.content }}
-                    </a-col>
-                  </a-row>
-                  <a-row>
                     <a-avatar
                     :src="'/api/user/avatar/get_by_username?username='+item.username" 
                       style="margin-right: 8px; height:1rem; width:1rem"/>
                     {{ item.username }}
-
-
                     <a-icon type="message" 
                     style="margin-right: 8px; margin-top: 10px"
                     />
@@ -83,7 +77,7 @@
                           <span>{{ item.title }}</span>
                         </template>
                         <a :href="'/community/article/detail/' + item.id">{{
-                          item.title | titleFormat
+                          item.title | format(10)
                         }}</a>
                       </a-tooltip></a-col
                     >
@@ -112,7 +106,7 @@
                         <template slot="title">
                           <span>{{ item.title }}</span>
                         </template>
-                        <a :href="item.link">{{ item.title | titleFormat }}</a>
+                        <a :href="item.link">{{ item.title | format(10) }}</a>
                       </a-tooltip>
                     </a-col>
                     <a-col :span="8" :style="{ float: 'right' }">{{
@@ -151,14 +145,14 @@ export default {
       }
       return value.split(" ")[0];
     },
-    titleFormat(value) {
+    format(value, num) {
       if(value == null){
         return null
       }
-      if(value.length<10){
+      if(value.length<num){
         return value
       }
-      return value.slice(0, 10) + "...";
+      return value.slice(0, num) + "...";
     },
   },
 
