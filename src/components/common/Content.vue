@@ -21,7 +21,7 @@ export default {
   name: "Content",
   props: {
     height: {
-      default: "480px",
+      default: "678px",
 
     },
     width:{
